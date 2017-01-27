@@ -1,0 +1,29 @@
+{
+
+  "presets": [
+    ["es2015", { "modules": false, "loose": true }],
+    "stage-0",
+    "react"
+  ],
+
+  
+
+  "env": {
+
+    "development": {
+      "plugins": [
+        "transform-react-jsx-source",
+        "transform-react-stateless-component-name"
+      ]
+    },
+
+    "production": {
+      "plugins": [
+        "lodash",
+        "transform-react-remove-prop-types"
+      ]
+    }
+
+  }
+
+}
