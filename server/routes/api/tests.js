@@ -1,3 +1,4 @@
+
 const {Test} = require(`mongoose`).models;
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
@@ -13,7 +14,8 @@ Joi.objectId = require(`joi-objectid`)(Joi);
 const path = `/api/tests`;
 
 module.exports = [
-  // Als hij in config al flipt, dan doet hij de mongoose routes ook niet
+
+// GET
   {
     method: `GET`,
     path: `${path}`,
@@ -31,6 +33,36 @@ module.exports = [
         })
         .catch(() => {
           return res(Boom.badRequest());
+        });
+    }
+  },
+
+
+// POST
+  {
+    method: `POST`,
+    path: `${path}`,
+    config: {
+      validate: {
+        options: {
+          abortEarly: false
+        },
+        payload: {
+          name: Joi.string().required(),
+          description: Joi.string().required()
+        }
+      }
+    },
+    handler: (req, res) => {
+      const data = pick(req.payload, [`name`, `description`]);
+      const test = new Test(data);
+
+      test.save()
+        .then(t => {
+          return res({t});
+        })
+        .catch(() => {
+          return res(Boom.badRequest(`Cannot save user`));
         });
     }
   }
