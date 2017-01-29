@@ -1,11 +1,18 @@
 import React from 'react';
 
-const Home = () => {
+import {Direction} from '../components';
+
+const Home = props => {
+
+  const {allLights} = props;
+
   return (
-    <header>
-      <h1>Hello, simulator</h1>
-    </header>
+    <Direction allLights={allLights} />
   );
+};
+
+Home.propTypes = {
+  allLights: React.PropTypes.object
 };
 
 export default Home;

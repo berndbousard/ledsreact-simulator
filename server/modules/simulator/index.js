@@ -30,6 +30,21 @@ module.exports.register = (server, options, next) => {
     console.log(directions);
     socket.emit(`init`, directions);
 
+    // Direction laten oplichten
+    socket.on(`lightUpDirection`, ({socketId}) => {
+
+      const direction = directions.filter(d => {
+        return d.socketId === socketId;
+      });
+
+      if (!direction) {
+        console.log(`Geen Direction verbonden met deze socket id`);
+        return;
+      }
+
+      io.to(socketId).emit(`lightUp`);
+    });
+
     socket.on(`disconnect`, () => {
       if (client === `direction`) {
         console.log(`Direction met als ID ${socketId} is weg`);

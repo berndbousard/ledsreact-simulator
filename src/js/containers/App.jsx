@@ -6,22 +6,43 @@ import Home from '../pages/Home';
 
 class App extends PureComponent { // Component zonder state
 
-  componentDidMount() {
+  constructor() {
+    super();
+
     this.socket = io(`/`, {query: `client=direction`});
-    this.socket.on(`init`);
+    this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
+
+    this.state = {
+      allLights: false
+    };
   }
 
   WSInitHandler() {
     console.log(`This Direction is Connected`);
   }
 
+  WSLightUpDirectionHandler() {
+    this.setState({allLights: true});
+
+    setTimeout(() => {
+      this.setState({allLights: false});
+    }, 0);
+  }
+
   render() {
+
+    const {allLights} = this.state;
+
     return (
       <Router>
         <main>
           <Match
             exactly pattern='/'
-            component={Home}
+            render={() => {
+              return (
+                <Home allLights={allLights} />
+              );
+            }}
           />
         </main>
       </Router>
