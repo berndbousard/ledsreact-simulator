@@ -11,8 +11,13 @@ const schema = new Schema ({
     required: true
   },
 
+  created: {
+    type: Date,
+    default: Date.now()
+  },
+
   creator: {
-    type: Schema.Types.Number,
+    type: Schema.Types.ObjectId,
     ref: `User`,
     required: true
   }

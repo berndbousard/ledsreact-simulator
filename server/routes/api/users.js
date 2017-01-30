@@ -1,13 +1,9 @@
-
 const {User} = require(`mongoose`).models;
+const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
-// dingen uit object halen met pick; omit om dingen uit object te smijten
-const {pick, omit} = require(`lodash`);
+const {pick, omit} = require(`lodash`); // dingen uit object halen met pick; omit om dingen uit object te smijten
 
 const Boom = require(`boom`);
-
-// handig wanneer je comments van specifieke user.
-// moet aan specifiek patroon voldoen
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
@@ -20,6 +16,12 @@ module.exports = [
     method: `GET`,
     path: `${path}/{_id?}`,
     config: {
+
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
+
       validate: {
         options: {
           abortEarly: false
@@ -63,22 +65,34 @@ module.exports = [
     method: `POST`,
     path: `${path}`,
     config: {
+
+      auth: {
+        strategy: `token`,
+        mode: `try`
+      },
+
       validate: {
+
         options: {
           abortEarly: false
         },
+
         payload: {
           name: Joi.string().required(),
-          email: Joi.string().required()
+          email: Joi.string().required(),
+          password: Joi.string().required()
         }
       }
+
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `email`]);
+      const data = pick(req.payload, [`name`, `email`, `password`, `scope`, `created`]);
       const user = new User(data);
+      const projection = [`__v`, `password`, `isActive`];
 
       user.save()
         .then(r => {
+          r = omit(r.toJSON(), projection);
           return res({r});
         })
         .catch(() => {

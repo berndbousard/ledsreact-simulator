@@ -1,12 +1,11 @@
 const {Exercise} = require(`mongoose`).models;
+const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
 const {pick, omit} = require(`lodash`);
 
 const Boom = require(`boom`);
 
-// handig wanneer je comments van specifieke user.
-// moet aan specifiek patroon voldoen
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
@@ -19,6 +18,12 @@ module.exports = [
     method: `GET`,
     path: `${path}/{_id?}`,
     config: {
+
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
+
       validate: {
         options: {
           abortEarly: false
@@ -51,6 +56,10 @@ module.exports = [
           .populate(`creator`)
           .exec()
           .then(r => {
+            const projection = [`__v`];
+            r = r.map((_r => {
+              return omit(_r.toJSON(), projection);
+            }));
             return res({r});
           })
           .catch(() => {
@@ -67,27 +76,34 @@ module.exports = [
     method: `POST`,
     path: `${path}`,
     config: {
+
       validate: {
+
         options: {
           abortEarly: false
         },
+
         payload: {
           name: Joi.string().required(),
           desc: Joi.string().required(),
           creator: Joi.objectId().required()
         }
+
       }
+
     },
     handler: (req, res) => {
       const data = pick(req.payload, [`name`, `desc`, `creator`]);
       const exercise = new Exercise(data);
+      const projection = [`__v`];
 
       exercise.save()
         .then(r => {
+          r = omit(r.toJSON(), projection);
           return res({r});
         })
-        .catch(() => {
-          return res(Boom.badRequest(`Cannot save user`));
+        .catch(e => {
+          return res(Boom.badRequest(e));
         });
     }
   }
