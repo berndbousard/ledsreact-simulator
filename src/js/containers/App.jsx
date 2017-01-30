@@ -26,7 +26,7 @@ class App extends PureComponent { // Component zonder state
 
     setTimeout(() => {
       this.setState({allLights: false});
-    }, 0);
+    }, 1000);
   }
 
   render() {

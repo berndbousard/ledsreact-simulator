@@ -6,14 +6,14 @@ const schema = new Schema ({
     required: true
   },
 
-  desc: {
+  email: {
     type: String,
     required: true
   },
 
-  creator: {
-    type: Schema.Types.Number,
-    ref: `User`,
+  created: {
+    type: Date,
+    default: Date.now(),
     required: true
   }
 });

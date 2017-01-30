@@ -12,7 +12,7 @@ const Home = props => {
 };
 
 Home.propTypes = {
-  allLights: React.PropTypes.object
+  allLights: React.PropTypes.boolean
 };
 
 export default Home;
