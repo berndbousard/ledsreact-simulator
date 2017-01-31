@@ -45,7 +45,7 @@ module.exports = [
               {email: login}
             ]
           },
-          {isActive: true}
+          {isActive}
         ]
       }).then(user => {
 

@@ -1,13 +1,15 @@
-const {User} = require(`mongoose`).models;
+const {Team} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
-const {pick, omit} = require(`lodash`); // dingen uit object halen met pick; omit om dingen uit object te smijten
+// dingen uit object halen met pick; omit om dingen uit object te smijten
+const {pick, omit, filter} = require(`lodash`);
 
 const Boom = require(`boom`);
+
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
-const path = `/api/users`;
+const path = `/api/teams`;
 
 module.exports = [
 
@@ -17,10 +19,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
@@ -35,10 +37,11 @@ module.exports = [
     handler: (req, res) => {
 
       const {_id} = req.params;
+
       const projection = `-__v`;
 
       if (_id) {
-        User.findOne({_id: `${_id}`}, projection)
+        Team.findOne({_id: `${_id}`}, projection)
           .then(r => {
             return res({r});
           })
@@ -48,26 +51,34 @@ module.exports = [
       }
 
       else {
-        User.find(projection)
+
+        const {sport} = req.query;
+
+        Team.find()
           .populate({
-            path: `sport`,
-            select: `-__v`,
-          })
-          .populate({
-            path: `team`,
-            select: `-__v`,
+            path: `sport`, //Joinen
+            match: sport ? {name: {$eq: sport}} : null,
+            select: `-__v` //Filteren
           })
           .then(r => {
+
+            // Alle nulls eruit halen
+            r = filter(r, _r => {
+              return _r.sport !== null;
+            });
+
             const projection = [`__v`];
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
+
             return res({r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
           });
       }
+
     }
   },
 
@@ -80,7 +91,7 @@ module.exports = [
 
       // auth: {
       //   strategy: `token`,
-      //   mode: `try`
+      //   scope: [Scopes.USER]
       // },
 
       validate: {
@@ -91,21 +102,18 @@ module.exports = [
 
         payload: {
           name: Joi.string().required(),
-          email: Joi.string().required(),
-          password: Joi.string().required(),
-          type: Joi.number().required(),
-          sport: Joi.objectId().required(),
-          team: Joi.objectId().required()
+          sport: Joi.string().required()
         }
+
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `team`, `type`, `image`, `scope`, `isActive`, `created`]);
-      const user = new User(data);
-      const projection = [`__v`, `password`, `isActive`];
+      const data = pick(req.payload, [`name`, `sport`]);
+      const team = new Team(data);
+      const projection = [`__v`];
 
-      user.save()
+      team.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
           return res({r});

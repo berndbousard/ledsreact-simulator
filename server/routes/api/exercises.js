@@ -77,6 +77,11 @@ module.exports = [
     path: `${path}`,
     config: {
 
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
+
       validate: {
 
         options: {
@@ -86,7 +91,11 @@ module.exports = [
         payload: {
           name: Joi.string().required(),
           desc: Joi.string().required(),
-          creator: Joi.objectId().required()
+          creator: Joi.objectId().required(),
+          targetAge: Joi.number().required(),
+          intensity: Joi.number().required(),
+          groupSize: Joi.number().required(),
+          focus: Joi.string().required()
         }
 
       }
@@ -103,7 +112,7 @@ module.exports = [
           return res({r});
         })
         .catch(e => {
-          return res(Boom.badRequest(e));
+          return res(Boom.badRequest(e.errmsg));
         });
     }
   }

@@ -21,6 +21,28 @@ const schema = new Schema ({
     bcrypt: true
   },
 
+  sport: {
+    type: Schema.Types.ObjectId,
+    ref: `Sport`,
+    required: true
+  },
+
+  team: {
+    type: Schema.Types.ObjectId,
+    ref: `Team`,
+    required: true
+  },
+
+  type: {
+    type: Number,
+    required: true
+  },
+
+  image: {
+    type: String,
+    default: `propic.jpg`
+  },
+
   scope: {
     type: String,
     default: Scopes.USER
