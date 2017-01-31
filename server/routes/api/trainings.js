@@ -1,15 +1,15 @@
-const {Team} = require(`mongoose`).models;
+const {Training} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
-const {pick, omit, filter} = require(`lodash`);
+const {pick, omit} = require(`lodash`);
 
 const Boom = require(`boom`);
 
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
-const path = `/api/teams`;
+const path = `/api/trainings`;
 
 module.exports = [
 
@@ -19,10 +19,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      // auth: {
-      //   strategy: `token`,
-      //   scope: [Scopes.USER]
-      // },
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
 
       validate: {
         options: {
@@ -37,45 +37,34 @@ module.exports = [
     handler: (req, res) => {
 
       const {_id} = req.params;
-
       const projection = `-__v`;
 
       if (_id) {
-        Team.findOne({_id: `${_id}`}, projection)
+        Training.findOne({_id: `${_id}`}, projection)
+          .populate(`creator`)
           .then(r => {
             return res({r});
           })
-          .catch(e => {
-            return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+          .catch(() => {
+            return res(Boom.badRequest());
           });
       }
 
       else {
-
-        const {sport} = req.query;
-
-        Team.find()
+        Training.find()
           .populate({
-            path: `sport`, //Joinen
-            match: sport ? {name: {$eq: sport}} : null,
-            select: `-__v -created` //Filteren
+            path: `creator`,
+            select: `-__v -password`,
           })
           .then(r => {
-
-            // Alle nulls eruit halen
-            r = filter(r, _r => {
-              return _r.sport !== null;
-            });
-
             const projection = [`__v`];
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
-
             return res({r});
           })
-          .catch(e => {
-            return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+          .catch(() => {
+            return res(Boom.badRequest());
           });
       }
 
@@ -89,10 +78,10 @@ module.exports = [
     path: `${path}`,
     config: {
 
-      // auth: {
-      //   strategy: `token`,
-      //   scope: [Scopes.USER]
-      // },
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
 
       validate: {
 
@@ -102,24 +91,26 @@ module.exports = [
 
         payload: {
           name: Joi.string().required(),
-          sport: Joi.string().required()
+          scheduleDay: Joi.date().required(),
+          timeframe: Joi.number().required(),
+          creator: Joi.objectId().required()
         }
 
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `sport`]);
-      const team = new Team(data);
+      const data = pick(req.payload, [`name`, `scheduleDay`, `timeframe`, `creator`]);
+      const training = new Training(data);
       const projection = [`__v`];
 
-      team.save()
+      training.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
           return res({r});
         })
         .catch(e => {
-          return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+          return res(Boom.badRequest(e.errmsg));
         });
     }
   }

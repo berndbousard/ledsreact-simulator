@@ -27,12 +27,6 @@ const schema = new Schema ({
     required: true
   },
 
-  team: {
-    type: Schema.Types.ObjectId,
-    ref: `Team`,
-    required: true
-  },
-
   type: {
     type: Number,
     required: true

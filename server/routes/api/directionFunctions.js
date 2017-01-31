@@ -1,14 +1,15 @@
-const jwt = require(`jsonwebtoken`);
-const {User} = require(`mongoose`).models;
+const {DirectionFunction} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
-const {pick, omit} = require(`lodash`); // dingen uit object halen met pick; omit om dingen uit object te smijten
+// dingen uit object halen met pick; omit om dingen uit object te smijten
+const {pick, omit} = require(`lodash`);
 
 const Boom = require(`boom`);
+
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
-const path = `/api/users`;
+const path = `/api/directionFunctions`;
 
 module.exports = [
 
@@ -35,22 +36,11 @@ module.exports = [
     },
     handler: (req, res) => {
 
-      // TOKEN DECODE
-      // const bearer = req.headers.authorization.split(` `);
-      // const token = bearer[bearer.length - 1];
-      //
-      // const decoded = jwt.decode(token);
-      // console.log(decoded);
-
       const {_id} = req.params;
-      const projection = `-__v -password`;
+      const projection = `-__v`;
 
       if (_id) {
-        User.findOne({_id: `${_id}`}, projection)
-          .populate({
-            path: `sport`,
-            select: `-__v -created`,
-          })
+        DirectionFunction.findOne({_id: `${_id}`}, projection)
           .then(r => {
             return res({r});
           })
@@ -60,13 +50,9 @@ module.exports = [
       }
 
       else {
-        User.find(projection)
-          .populate({
-            path: `sport`,
-            select: `-__v -created`,
-          })
+        DirectionFunction.find()
           .then(r => {
-            const projection = [`__v`, `password`, `created`];
+            const projection = [`__v`, `created`];
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
@@ -76,6 +62,7 @@ module.exports = [
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
           });
       }
+
     }
   },
 
@@ -86,6 +73,11 @@ module.exports = [
     path: `${path}`,
     config: {
 
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
+
       validate: {
 
         options: {
@@ -93,21 +85,18 @@ module.exports = [
         },
 
         payload: {
-          name: Joi.string().required(),
-          email: Joi.string().required(),
-          password: Joi.string().required(),
-          type: Joi.number().required(),
-          sport: Joi.objectId().required()
+          name: Joi.string().required()
         }
+
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `type`, `image`, `scope`, `isActive`, `created`]);
-      const user = new User(data);
-      const projection = [`__v`, `password`, `isActive`];
+      const data = pick(req.payload, [`name`]);
+      const directionFunction = new DirectionFunction(data);
+      const projection = [`__v`, `created`];
 
-      user.save()
+      directionFunction.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
           return res({r});

@@ -1,14 +1,15 @@
-const jwt = require(`jsonwebtoken`);
-const {User} = require(`mongoose`).models;
+const {ExerciseNote} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
-const {pick, omit} = require(`lodash`); // dingen uit object halen met pick; omit om dingen uit object te smijten
+// dingen uit object halen met pick; omit om dingen uit object te smijten
+const {pick, omit} = require(`lodash`);
 
 const Boom = require(`boom`);
+
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
-const path = `/api/users`;
+const path = `/api/exerciseNotes`;
 
 module.exports = [
 
@@ -35,21 +36,18 @@ module.exports = [
     },
     handler: (req, res) => {
 
-      // TOKEN DECODE
-      // const bearer = req.headers.authorization.split(` `);
-      // const token = bearer[bearer.length - 1];
-      //
-      // const decoded = jwt.decode(token);
-      // console.log(decoded);
-
       const {_id} = req.params;
-      const projection = `-__v -password`;
+      const projection = `-__v`;
 
       if (_id) {
-        User.findOne({_id: `${_id}`}, projection)
+        ExerciseNote.findOne({_id: `${_id}`}, projection)
           .populate({
-            path: `sport`,
-            select: `-__v -created`,
+            path: `exercise`,
+            select: `-__v`,
+          })
+          .populate({
+            path: `creator`,
+            select: `-__v -password`,
           })
           .then(r => {
             return res({r});
@@ -60,13 +58,17 @@ module.exports = [
       }
 
       else {
-        User.find(projection)
+        ExerciseNote.find()
           .populate({
-            path: `sport`,
-            select: `-__v -created`,
+            path: `exercise`,
+            select: `-__v`,
+          })
+          .populate({
+            path: `creator`,
+            select: `-__v -password`,
           })
           .then(r => {
-            const projection = [`__v`, `password`, `created`];
+            const projection = [`__v`, `created`];
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
@@ -76,6 +78,7 @@ module.exports = [
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
           });
       }
+
     }
   },
 
@@ -86,6 +89,11 @@ module.exports = [
     path: `${path}`,
     config: {
 
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
+
       validate: {
 
         options: {
@@ -93,21 +101,20 @@ module.exports = [
         },
 
         payload: {
-          name: Joi.string().required(),
-          email: Joi.string().required(),
-          password: Joi.string().required(),
-          type: Joi.number().required(),
-          sport: Joi.objectId().required()
+          exercise: Joi.objectId().required(),
+          creator: Joi.objectId().required(),
+          text: Joi.string().required()
         }
+
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `type`, `image`, `scope`, `isActive`, `created`]);
-      const user = new User(data);
-      const projection = [`__v`, `password`, `isActive`];
+      const data = pick(req.payload, [`exercise`, `creator`, `text`]);
+      const exerciseNote = new ExerciseNote(data);
+      const projection = [`__v`, `created`];
 
-      user.save()
+      exerciseNote.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
           return res({r});

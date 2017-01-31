@@ -11,52 +11,30 @@ const schema = new Schema ({
     required: true
   },
 
+  price: {
+    type: Number,
+    required: true
+  },
+
   creator: {
     type: Schema.Types.ObjectId,
     ref: `User`,
     required: true
   },
 
-  targetAge: {
-    type: Number,
-    required: true
-  },
-
-  intensity: {
-    type: Number,
-    required: true
-  },
-
-  groupSize: {
-    type: Number,
-    required: true
-  },
-
-  focus: {
+  creatorBio: {
     type: String,
     required: true
   },
 
-  sport: {
-    type: Schema.Types.ObjectId,
-    ref: `Sport`,
-    required: true
-  },
-
-  image: {
+  club: {
     type: String,
-    default: `exercisePic.jpg`,
     required: true
   },
 
-  public: {
-    type: Boolean,
-    default: false
-  },
-
-  price: {
-    type: Number,
-    default: 0
+  clubImage: {
+    type: String,
+    default: `clubPic.jpg`
   },
 
   created: {

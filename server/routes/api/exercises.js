@@ -41,8 +41,14 @@ module.exports = [
 
       if (_id) {
         Exercise.findOne({_id: `${_id}`}, projection)
-          .populate(`creator`)
-          .exec()
+          .populate({
+            path: `creator`,
+            select: `-__v -password`,
+          })
+          .populate({
+            path: `sport`,
+            select: `-__v -created`,
+          })
           .then(r => {
             return res({r});
           })
@@ -53,8 +59,14 @@ module.exports = [
 
       else {
         Exercise.find()
-          .populate(`creator`)
-          .exec()
+          .populate({
+            path: `creator`,
+            select: `-__v -password`,
+          })
+          .populate({
+            path: `sport`,
+            select: `-__v -created`,
+          })
           .then(r => {
             const projection = [`__v`];
             r = r.map((_r => {
@@ -95,14 +107,15 @@ module.exports = [
           targetAge: Joi.number().required(),
           intensity: Joi.number().required(),
           groupSize: Joi.number().required(),
-          focus: Joi.string().required()
+          focus: Joi.string().required(),
+          sport: Joi.objectId().required()
         }
 
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `desc`, `creator`]);
+      const data = pick(req.payload, [`name`, `desc`, `creator`, `targetAge`, `intensity`, `groupSize`, `focus`, `sport`]);
       const exercise = new Exercise(data);
       const projection = [`__v`];
 

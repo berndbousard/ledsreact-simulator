@@ -6,9 +6,25 @@ const schema = new Schema ({
     required: true
   },
 
-  description: {
-    type: String,
+  scheduleDay: {
+    type: Date,
     required: true
+  },
+
+  timeframe: {
+    type: Number,
+    required: true
+  },
+
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: `User`,
+    required: true
+  },
+
+  created: {
+    type: Date,
+    default: Date.now()
   }
 });
 
