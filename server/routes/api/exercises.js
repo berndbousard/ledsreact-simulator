@@ -1,3 +1,5 @@
+const fs = require(`fs`);
+const nodePath = require(`path`);
 const {Exercise} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
@@ -89,13 +91,19 @@ module.exports = [
     path: `${path}`,
     config: {
 
+      payload: {
+        maxBytes: 1000000, // 1MB
+        output: `stream`,  // We need to pipe the filedata to another server
+        parse: true,
+        allow: `multipart/form-data`
+      },
+
       auth: {
         strategy: `token`,
         scope: [Scopes.USER]
       },
 
       validate: {
-
         options: {
           abortEarly: false
         },
@@ -108,14 +116,29 @@ module.exports = [
           intensity: Joi.number().required(),
           groupSize: Joi.number().required(),
           focus: Joi.string().required(),
-          sport: Joi.objectId().required()
+          sport: Joi.objectId().required(),
+          image: Joi.any().required()
         }
-
       }
 
     },
     handler: (req, res) => {
+
+      const image = req.payload.image;
+      const imageName = image.hapi.filename;
+      const imageUploadLocation = nodePath.join(__dirname, `/../../uploads`, `${imageName}`);
+
+      const imageFile = fs.createWriteStream(imageUploadLocation);
+
+      imageFile.on(`error`, e => res(Boom.badRequest(e.errmsg ? e.errmsg : e)));
+
+      image.pipe(imageFile);
+      image.on(`end`, e => {
+        if (e) res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+      });
+
       const data = pick(req.payload, [`name`, `desc`, `creator`, `targetAge`, `intensity`, `groupSize`, `focus`, `sport`]);
+      data.image = imageName;
       const exercise = new Exercise(data);
       const projection = [`__v`];
 
@@ -125,7 +148,7 @@ module.exports = [
           return res({r});
         })
         .catch(e => {
-          return res(Boom.badRequest(e.errmsg));
+          return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
         });
     }
   }
