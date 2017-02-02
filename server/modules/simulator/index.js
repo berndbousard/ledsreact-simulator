@@ -45,6 +45,14 @@ module.exports.register = (server, options, next) => {
       io.to(socketId).emit(`lightUp`);
     });
 
+    socket.on(`changeDirectionFunction`, ({func, order}) => {
+      console.log(func, order);
+    });
+
+    socket.on(`checkDirections`, () => {
+      socket.emit(`checkDirections`, directions);
+    });
+
     socket.on(`disconnect`, () => {
       if (client === `direction`) {
         console.log(`Direction met als ID ${socketId} is weg`);

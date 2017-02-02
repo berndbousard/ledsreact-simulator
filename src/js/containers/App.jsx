@@ -11,14 +11,20 @@ class App extends PureComponent { // Component zonder state
 
     this.socket = io(`/`, {query: `client=direction`});
     this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
+    this.socket.on(`function`, func => this.WSChangeFunctionHandler(func));
 
     this.state = {
-      allLights: false
+      allLights: false,
+      func: `richting`
     };
   }
 
   WSInitHandler() {
     console.log(`This Direction is Connected`);
+  }
+
+  WSChangeFunctionHandler(func) {
+    this.setState({func});
   }
 
   WSLightUpDirectionHandler() {
@@ -31,7 +37,7 @@ class App extends PureComponent { // Component zonder state
 
   render() {
 
-    const {allLights} = this.state;
+    const {allLights, func} = this.state;
 
     return (
       <Router>
@@ -40,7 +46,7 @@ class App extends PureComponent { // Component zonder state
             exactly pattern='/'
             render={() => {
               return (
-                <Home allLights={allLights} />
+                <Home allLights={allLights} func={func} />
               );
             }}
           />
@@ -49,5 +55,9 @@ class App extends PureComponent { // Component zonder state
     );
   }
 }
+
+App.propTypes = {
+  allLights: React.PropTypes.bool
+};
 
 export default App;

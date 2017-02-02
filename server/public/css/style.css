@@ -60,15 +60,14 @@ body {
   font-family: Roboto;
   font-size: 48px;
   font-size: 3rem;
-  margin: 32px;
-  margin: 2rem;
 }
 
 html, body, .react-mount, main {
   height: 100%;
+  width: 100%;
 }
 
-main, .direction {
+main, .direction, .home {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -81,9 +80,15 @@ main, .direction {
   width: 100%;
 }
 
+.home {
+  padding: 32px;
+  padding: 2rem;
+}
+
 .directionLight {
   width: 50px;
   height: 50px;
+  border-radius: .2rem;
 }
 
 .lightOff {
@@ -92,6 +97,35 @@ main, .direction {
 
 .lightOn {
   background-color: red;
+}
+
+.functionBar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: black;
+  border-radius: 100rem;
+  padding: 16px 32px;
+  padding: 1rem 2rem;
+
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+}
+
+.functionBarText {
+  color: white;
+  font-size: 16px;
+  font-size: 1rem;
+  letter-spacing: 0.48px;
+  letter-spacing: .03rem;
+  text-transform: uppercase;
 }
 
 /*# sourceMappingURL=style.css.map*/

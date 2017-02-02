@@ -2,7 +2,7 @@ const {Direction} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
-const {pick, omit} = require(`lodash`);
+const {pick, omit, isEmpty} = require(`lodash`);
 
 const Boom = require(`boom`);
 
@@ -19,10 +19,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
@@ -37,11 +37,24 @@ module.exports = [
     handler: (req, res) => {
 
       const {_id} = req.params;
+      const {exercise} = req.query;
+      const query = {};
       const projection = `-__v`;
 
+      if (!isEmpty(_id)) {
+        query._id = _id;
+      }
+
+      if (!isEmpty(exercise)) {
+        query.exercise = exercise;
+      }
+
       if (_id) {
-        Direction.findOne({_id: `${_id}`}, projection)
-          .populate(`function`)
+        Direction.findOne(query, projection)
+          .populate({
+            path: `function`,
+            select: `name`
+          })
           .then(r => {
             return res({r});
           })
@@ -51,8 +64,11 @@ module.exports = [
       }
 
       else {
-        Direction.find()
-          .populate(`function`)
+        Direction.find(query)
+          .populate({
+            path: `function`,
+            select: `name`
+          })
           .then(r => {
             const projection = [`__v`];
             r = r.map((_r => {
@@ -87,6 +103,7 @@ module.exports = [
         },
 
         payload: {
+          exercise: Joi.objectId().required(),
           function: Joi.objectId().required(),
           order: Joi.number().required()
         }
@@ -95,7 +112,7 @@ module.exports = [
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`function`, `order`]);
+      const data = pick(req.payload, [`function`, `order`, `exercise`]);
       const direction = new Direction(data);
       const projection = [`__v`];
 

@@ -15,7 +15,7 @@ const Direction = ({allLights}) => {
 };
 
 Direction.propTypes = {
-  allLights: React.PropTypes.object
+  allLights: React.PropTypes.bool
 };
 
 export default Direction;

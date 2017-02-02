@@ -3,23 +3,28 @@
 body {
   font-family: Roboto;
   font-size: 3rem;
-  margin: 2rem;
 }
 
 html, body, .react-mount, main {
   height: 100%;
+  width: 100%;
 }
 
-main, .direction {
+main, .direction, .home {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
+.home {
+  padding: 2rem;
+}
+
 .directionLight {
   width: 50px;
   height: 50px;
+  border-radius: .2rem;
 }
 
 .lightOff {
@@ -28,4 +33,24 @@ main, .direction {
 
 .lightOn {
   background-color: red;
+}
+
+.functionBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border-radius: 100rem;
+  padding: 1rem 2rem;
+
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+}
+
+.functionBarText {
+  color: white;
+  font-size: 1rem;
+  letter-spacing: .03rem;
+  text-transform: uppercase;
 }

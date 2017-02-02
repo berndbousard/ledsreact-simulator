@@ -1,18 +1,20 @@
 import React from 'react';
 
-import {Direction} from '../components';
+import {Direction, FunctionBar} from '../components';
 
-const Home = props => {
-
-  const {allLights} = props;
+const Home = ({allLights, func}) => {
 
   return (
-    <Direction allLights={allLights} />
+    <section className='home'>
+      <Direction allLights={allLights} />
+      <FunctionBar func={func} />
+    </section>
   );
 };
 
 Home.propTypes = {
-  allLights: React.PropTypes.boolean
+  allLights: React.PropTypes.bool,
+  func: React.PropTypes.string
 };
 
 export default Home;
