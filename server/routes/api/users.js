@@ -110,7 +110,7 @@ module.exports = [
       user.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
-          return res({r});
+          return res({user: r});
         })
         .catch(e => {
           return res(Boom.badRequest(e.errmsg ? e.errmsg : e));

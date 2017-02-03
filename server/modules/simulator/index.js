@@ -16,8 +16,11 @@ module.exports.register = (server, options, next) => {
     if (client === `direction`) {
       const direction = {
         socketId,
-        batteryLevel: Math.round(Math.random() * 100)
+        batteryLevel: Math.round(Math.random() * 100),
+        function: `richting`
       };
+
+      io.to(direction.socketId).emit(`initDirection`, {direction});
 
       directions.push(direction);
 
@@ -51,6 +54,14 @@ module.exports.register = (server, options, next) => {
 
     socket.on(`checkDirections`, () => {
       socket.emit(`checkDirections`, directions);
+    });
+
+    socket.on(`updateDirectionsFunction`, ({functions}) => {
+      directions = directions.map((d, index) => {
+        d.function = functions[index];
+        io.to(d.socketId).emit(`changeFunction`, {function: functions[index]});
+        return d;
+      });
     });
 
     socket.on(`disconnect`, () => {

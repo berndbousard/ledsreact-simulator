@@ -130,6 +130,8 @@ module.exports = [
 
       const imageFile = fs.createWriteStream(imageUploadLocation);
 
+      // Andere volgorde
+
       imageFile.on(`error`, e => res(Boom.badRequest(e.errmsg ? e.errmsg : e)));
 
       image.pipe(imageFile);

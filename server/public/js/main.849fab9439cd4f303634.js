@@ -14549,13 +14549,17 @@ var App = function (_PureComponent) {
     _this.socket.on('lightUp', function () {
       return _this.WSLightUpDirectionHandler();
     });
-    _this.socket.on('function', function (func) {
+    _this.socket.on('initDirection', function (direction) {
+      return _this.handleWSLightDirectionInit(direction);
+    });
+    _this.socket.on('changeFunction', function (func) {
       return _this.WSChangeFunctionHandler(func);
     });
 
     _this.state = {
       allLights: false,
-      func: 'richting'
+      func: 'richting',
+      batteryLevel: 0
     };
     return _this;
   }
@@ -14564,8 +14568,17 @@ var App = function (_PureComponent) {
     console.log('This Direction is Connected');
   };
 
+  App.prototype.handleWSLightDirectionInit = function handleWSLightDirectionInit(_ref) {
+    var direction = _ref.direction;
+
+    this.setState({
+      func: direction.function,
+      batteryLevel: direction.batteryLevel
+    });
+  };
+
   App.prototype.WSChangeFunctionHandler = function WSChangeFunctionHandler(func) {
-    this.setState({ func: func });
+    this.setState({ func: func.function });
   };
 
   App.prototype.WSLightUpDirectionHandler = function WSLightUpDirectionHandler() {
@@ -14589,7 +14602,7 @@ var App = function (_PureComponent) {
       {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 43
+          lineNumber: 52
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -14597,7 +14610,7 @@ var App = function (_PureComponent) {
         {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 44
+            lineNumber: 53
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["Match"], {
@@ -14605,13 +14618,13 @@ var App = function (_PureComponent) {
           render: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__pages_Home__["a" /* default */], { allLights: allLights, func: func, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 49
+                lineNumber: 58
               }
             });
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 45
+            lineNumber: 54
           }
         })
       )
@@ -34744,4 +34757,4 @@ module.exports = __webpack_require__(119);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.cb030252ea3c7385fd59.js.map
+//# sourceMappingURL=main.849fab9439cd4f303634.js.map
