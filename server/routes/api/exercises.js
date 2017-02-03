@@ -63,11 +63,19 @@ module.exports = [
         Exercise.find()
           .populate({
             path: `creator`,
-            select: `-__v -password`,
+            select: `_id name image`,
           })
           .populate({
             path: `sport`,
             select: `-__v -created`,
+          })
+          .populate({
+            path: `feedback`,
+            select: `creator text created`,
+          })
+          .populate({
+            path: `notes`,
+            select: `creator text created`,
           })
           .then(r => {
             const projection = [`__v`];
@@ -117,7 +125,8 @@ module.exports = [
           groupSize: Joi.number().required(),
           focus: Joi.string().required(),
           sport: Joi.objectId().required(),
-          image: Joi.any().required()
+          image: Joi.any().required(),
+          feedback: Joi.object()
         }
       }
 
@@ -139,7 +148,7 @@ module.exports = [
         if (e) res(Boom.badRequest(e.errmsg ? e.errmsg : e));
       });
 
-      const data = pick(req.payload, [`name`, `desc`, `creator`, `targetAge`, `intensity`, `groupSize`, `focus`, `sport`]);
+      const data = pick(req.payload, [`name`, `desc`, `creator`, `targetAge`, `intensity`, `groupSize`, `focus`, `sport`, `feedback`]);
       data.image = imageName;
       const exercise = new Exercise(data);
       const projection = [`__v`];

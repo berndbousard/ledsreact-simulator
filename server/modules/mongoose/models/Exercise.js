@@ -49,6 +49,33 @@ const schema = new Schema ({
     unique: true
   },
 
+  // feedback: [
+  //   {
+  //     user: {
+  //       type: Schema.Types.ObjectId,
+  //       ref: `User`
+  //     },
+  //
+  //     text: {
+  //       type: String
+  //     }
+  //   }
+  // ],
+
+  feedback: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: `ExerciseFeedback`
+    }
+  ],
+
+  notes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: `ExerciseNote`
+    }
+  ],
+
   public: {
     type: Boolean,
     default: false
