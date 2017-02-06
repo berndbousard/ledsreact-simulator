@@ -19,10 +19,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
@@ -56,7 +56,7 @@ module.exports = [
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
-            return res({r});
+            return res({directionFunctions: r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
@@ -73,10 +73,10 @@ module.exports = [
     path: `${path}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
 

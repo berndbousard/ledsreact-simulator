@@ -33,8 +33,8 @@ module.exports.register = (server, options, next) => {
     console.log(directions);
     socket.emit(`init`, directions);
 
-    // Direction laten oplichten
-    socket.on(`lightUpDirection`, ({socketId}) => {
+    //-------------------------------{Direction oplichten als je erop tikt}---------------------------------
+    socket.on(`lightUpDirection`, socketId => {
 
       const direction = directions.filter(d => {
         return d.socketId === socketId;
