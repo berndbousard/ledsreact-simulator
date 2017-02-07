@@ -67,7 +67,13 @@ html, body, .react-mount, main {
   width: 100%;
 }
 
-main, .direction, .home {
+main {
+  background-image: url(/assets/linePattern.png), url(/assets/grassPattern.jpg);
+  background-size: 70rem, 30rem;
+  background-position: 500px 10px, auto;
+}
+
+main, .home {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -80,24 +86,118 @@ main, .direction, .home {
   width: 100%;
 }
 
+.directionwrapper {
+  margin: 0 auto;
+  width: 880px;
+  width: 55rem;
+  border-radius: 55rem;
+  height: 880px;
+  height: 55rem;
+  background-color: rgba(255, 0, 0, .5);
+  position: relative;
+
+}
+
+.direction {
+  top: 48px;
+  top: 3rem;
+  width: 800px;
+  width: 50rem;
+  height: 800px;
+  height: 50rem;
+  margin: 0 auto;
+  background-image: url(/assets/Direction.png);
+  background-size: cover;
+  position: relative;
+  background-position: center center;
+}
+
 .home {
   padding: 32px;
   padding: 2rem;
 }
 
 .directionLight {
-  width: 50px;
-  height: 50px;
-  border-radius: .2rem;
+  width: 160px;
+  width: 10rem;
+  height: 160px;
+  height: 10rem;
+  background-color: red;
+  filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="48" /></filter></svg>#filter');
+  -webkit-filter: blur(48px);
+          filter: blur(48px);
+  -webkit-filter: blur(3rem);
+          filter: blur(3rem);
+  border-radius: 10rem;
+  mix-blend-mode: screen;
+  /*transition-delay: 1s;*/
 }
 
+.whitelight {
+  width: 32px;
+  width: 2rem;
+  height: 32px;
+  height: 2rem;
+  background-color: white;
+  position: absolute;
+  top: 64px;
+  top: 4rem;
+  left: 64px;
+  left: 4rem;
+  filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="4" /></filter></svg>#filter');
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+  border-radius: 4.5rem;
+  z-index: 999;
+}
+
+.lightUP {
+  left: 315.2px;
+  left: 19.7rem;
+  top: 112px;
+  top: 7rem;
+}
+
+.lightRIGHT {
+  right: 115.2px;
+  right: 7.2rem;
+  top: 307.2px;
+  top: 19.2rem;
+}
+
+.lightDOWN {
+  left: 315.2px;
+  left: 19.7rem;
+  bottom: 137.6px;
+  bottom: 8.6rem;
+}
+
+.lightLEFT {
+  left: 115.2px;
+  left: 7.2rem;
+  top: 310.4px;
+  top: 19.4rem;
+}
+
+.light {
+  width: 160px;
+  width: 10rem;
+  height: 160px;
+  height: 10rem;
+  position: absolute;
+  -webkit-transition-delay: 1s;
+          transition-delay: 1s;
+}
+/*
 .lightOff {
-  background-color: black;
+  transition-delay: 1s;
+  opacity: 0;
 }
 
 .lightOn {
-  background-color: red;
-}
+  transition-delay: 1s;
+  opacity: 1;
+}*/
 
 .functionBar {
   display: -webkit-box;
@@ -115,8 +215,10 @@ main, .direction, .home {
   padding: 1rem 2rem;
 
   position: absolute;
-  bottom: 25px;
-  right: 25px;
+  bottom: 40px;
+  bottom: 2.5rem;
+  right: 40px;
+  right: 2.5rem;
 }
 
 .functionBarText {

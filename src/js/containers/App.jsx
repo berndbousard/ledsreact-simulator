@@ -17,8 +17,41 @@ class App extends PureComponent { // Component zonder state
     this.state = {
       allLights: false,
       func: `richting`,
-      batteryLevel: 0
+      batteryLevel: 0,
+
+      data: {
+        richtingIsRandom: false,
+        colorIsRandom: false,
+        top: {
+          isActive: true,
+          colorIsRandom: false,
+          color: `blue`,
+          delay: 0,
+        },
+        down: {
+          isActive: true,
+          colorIsRandom: true,
+          color: ``,
+          delay: 1,
+        },
+        left: {
+          isActive: false,
+          colorIsRandom: false,
+          color: `green`,
+          delay: 0,
+        },
+        right: {
+          isActive: false,
+          colorIsRandom: true,
+          color: ``,
+          delay: 0,
+        },
+      }
     };
+  }
+
+  componentDidMount() {
+    // this.WSLightUpDirectionHandler();
   }
 
   WSInitHandler() {
@@ -37,16 +70,18 @@ class App extends PureComponent { // Component zonder state
   }
 
   WSLightUpDirectionHandler() {
+
     this.setState({allLights: true});
 
     setTimeout(() => {
+      console.log(`in`);
       this.setState({allLights: false});
     }, 1000);
   }
 
   render() {
 
-    const {allLights, func} = this.state;
+    const {allLights, func, data} = this.state;
 
     return (
       <Router>
@@ -55,7 +90,7 @@ class App extends PureComponent { // Component zonder state
             exactly pattern='/'
             render={() => {
               return (
-                <Home allLights={allLights} func={func} />
+                <Home allLights={allLights} data={data} func={func} />
               );
             }}
           />

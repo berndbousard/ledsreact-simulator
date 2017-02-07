@@ -10,11 +10,38 @@ html, body, .react-mount, main {
   width: 100%;
 }
 
-main, .direction, .home {
+main {
+  background-image: url(../assets/linePattern.png), url(../assets/grassPattern.jpg);
+  background-size: 70rem, 30rem;
+  background-position: 500px 10px, auto;
+}
+
+main, .home {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+}
+
+.directionwrapper {
+  margin: 0 auto;
+  width: 55rem;
+  border-radius: 55rem;
+  height: 55rem;
+  background-color: rgba(255, 0, 0, .5);
+  position: relative;
+
+}
+
+.direction {
+  top: 3rem;
+  width: 50rem;
+  height: 50rem;
+  margin: 0 auto;
+  background-image: url(../assets/Direction.png);
+  background-size: cover;
+  position: relative;
+  background-position: center center;
 }
 
 .home {
@@ -22,18 +49,63 @@ main, .direction, .home {
 }
 
 .directionLight {
-  width: 50px;
-  height: 50px;
-  border-radius: .2rem;
+  width: 10rem;
+  height: 10rem;
+  background-color: red;
+  filter: blur(3rem);
+  border-radius: 10rem;
+  mix-blend-mode: screen;
+  /*transition-delay: 1s;*/
 }
 
+.whitelight {
+  width: 2rem;
+  height: 2rem;
+  background-color: white;
+  position: absolute;
+  top: 4rem;
+  left: 4rem;
+  filter: blur(4px);
+  border-radius: 4.5rem;
+  z-index: 999;
+}
+
+.lightUP {
+  left: 19.7rem;
+  top: 7rem;
+}
+
+.lightRIGHT {
+  right: 7.2rem;
+  top: 19.2rem;
+}
+
+.lightDOWN {
+  left: 19.7rem;
+  bottom: 8.6rem;
+}
+
+.lightLEFT {
+  left: 7.2rem;
+  top: 19.4rem;
+}
+
+.light {
+  width: 10rem;
+  height: 10rem;
+  position: absolute;
+  transition-delay: 1s;
+}
+/*
 .lightOff {
-  background-color: black;
+  transition-delay: 1s;
+  opacity: 0;
 }
 
 .lightOn {
-  background-color: red;
-}
+  transition-delay: 1s;
+  opacity: 1;
+}*/
 
 .functionBar {
   display: flex;
@@ -44,8 +116,8 @@ main, .direction, .home {
   padding: 1rem 2rem;
 
   position: absolute;
-  bottom: 25px;
-  right: 25px;
+  bottom: 2.5rem;
+  right: 2.5rem;
 }
 
 .functionBarText {
