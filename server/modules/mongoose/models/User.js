@@ -34,7 +34,8 @@ const schema = new Schema ({
 
   image: {
     type: String,
-    default: `propic.jpg`
+    default: `propic.jpg`,
+    unique: true
   },
 
   scope: {
@@ -45,6 +46,11 @@ const schema = new Schema ({
   isActive: {
     type: Boolean,
     default: true
+  },
+
+  obj: {
+    type: Object,
+    required: true
   },
 
   created: {

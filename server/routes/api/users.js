@@ -18,10 +18,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
@@ -97,13 +97,14 @@ module.exports = [
           email: Joi.string().required(),
           password: Joi.string().required(),
           type: Joi.number().required(),
-          sport: Joi.objectId().required()
+          sport: Joi.objectId().required(),
+          obj: Joi.object().required()
         }
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `type`, `image`, `scope`, `isActive`, `created`]);
+      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `type`, `image`, `scope`, `isActive`, `created`, `obj`]);
       const user = new User(data);
       const projection = [`__v`, `password`, `isActive`];
 

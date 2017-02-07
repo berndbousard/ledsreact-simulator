@@ -4,7 +4,7 @@ const {Exercise} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
-const {pick, omit} = require(`lodash`);
+const {pick, omit, isEmpty} = require(`lodash`);
 
 const Boom = require(`boom`);
 
@@ -21,10 +21,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
@@ -39,10 +39,21 @@ module.exports = [
     handler: (req, res) => {
 
       const {_id} = req.params;
+      const query = {};
+      const {creator} = req.query;
+
+      if (!isEmpty(_id)) {
+        query._id = _id;
+      }
+
+      if (!isEmpty(creator)) {
+        query.creator = creator;
+      }
+
       const projection = `-__v`;
 
       if (_id) {
-        Exercise.findOne({_id: `${_id}`}, projection)
+        Exercise.findOne(query, projection)
           .populate({
             path: `creator`,
             select: `-__v -password`,
@@ -52,7 +63,7 @@ module.exports = [
             select: `-__v -created`,
           })
           .then(r => {
-            return res({r});
+            return res({exercise: r});
           })
           .catch(() => {
             return res(Boom.badRequest());
@@ -60,7 +71,7 @@ module.exports = [
       }
 
       else {
-        Exercise.find()
+        Exercise.find(query)
           .populate({
             path: `creator`,
             select: `_id name image`,
@@ -82,7 +93,7 @@ module.exports = [
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
-            return res({r});
+            return res({exercises: r});
           })
           .catch(() => {
             return res(Boom.badRequest());
