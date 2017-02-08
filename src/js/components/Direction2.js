@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {Light} from '../components';
 
 const richtingen = [`top`, `left`, `right`, `bottom`];
-let inZone = false;
 
 class Direction extends Component {
 
@@ -18,58 +17,36 @@ class Direction extends Component {
     }
   }
 
-  componentWillReceiveProps(props) {
 
-    const {lichten, scanner, directionwrapper} = this.refs;
-    if (props.settings) {
+  componentDidMount() {
 
+    console.log(`huidige direction`, this.props);
 
-      const x = props.settings.x;
-      const y = props.settings.y;
+    const {lichten} = this.refs;
 
-      directionwrapper.style.position = `absolute`;
-      directionwrapper.style.left = `${x * window.innerWidth}px`;
-      directionwrapper.style.top = `${y * window.innerHeight}px`;
+    this.lightsOff();
 
-      scanner.classList.add(`scanSignal`);
+    if (this.props.settings) {
 
-      const {settings} = props;
+      const {settings} = this.props;
       this.setState({settings});
 
-      this.assignColors(settings.combineLights, settings.directions);
+      this.assignColors(settings.combineLights);
 
       lichten.addEventListener(`mouseenter`, () => {
-        this.assignColors(settings.combineLights, settings.directions);
-        inZone = true;
-
-        setTimeout(() => {
-          console.log(inZone);
-          if (inZone) {
-            this.lightsOn();
-          }
-        }, settings.delay * 100);
+        this.assignColors(settings.combineLights);
+        this.lightsOn();
       });
 
       lichten.addEventListener(`mouseleave`, () => {
-        if (inZone) {
-          this.lightsOff(settings.combineLights);
-          inZone = false;
-        }
+        this.lightsOff(settings.combineLights);
       });
     }
   }
 
-  componentDidMount() {
-    this.lightsOff();
-
-    const {order} = this.props;
-    const {directionwrapper} = this.refs;
-
-    directionwrapper.style.position = `absolute`;
-    directionwrapper.style.left = `${((order + 1) * 50) - 30}px`;
-    directionwrapper.style.top = `${window.innerHeight - 220  }px`;
-    directionwrapper.style.zIndex = 999 - order;
-
+  shouldComponentUpdate() {
+    console.log(`will receive`, this.props.settings);
+    return true;
   }
 
   lightsOn() {
@@ -86,7 +63,10 @@ class Direction extends Component {
     }
   }
 
-  assignColors(combine, directions) {
+
+
+  assignColors(combine) {
+    const {directions} = this.props.settings;
     const {kleuren} = this.state;
 
     for (let i = 0;i < richtingen.length;i ++) {
@@ -97,6 +77,7 @@ class Direction extends Component {
     let randomRichting;
 
     if (!combine) {
+
       while (randomColor === undefined) {
         const randomValue = Math.floor(Math.random() * richtingen.length);
         randomColor = kleuren[richtingen[randomValue]];
@@ -115,8 +96,15 @@ class Direction extends Component {
   }
 
   render() {
+
     const {allLights} = this.props;
     const {kleuren} = this.state;
+
+
+
+    console.log(`rendar`, this.props.settings);
+
+
 
     if (allLights) {
       this.lightsOn();
@@ -125,7 +113,7 @@ class Direction extends Component {
     }
 
     return (
-    <div className='directionwrapper' ref={`directionwrapper`} data-directionKey={this.props.socketId}>
+    <div className='directionwrapper' data-directionKey={this.props.socketId}>
       <div className='direction'>
         <div className='lightsWrapper' ref={`lichten`}>
           {/* {allLights ? this.lightsOn() : this.lightsOff()} */}
@@ -135,7 +123,7 @@ class Direction extends Component {
           <Light lightPosition={`lightLEFT`} allLights={allLights} color={kleuren.left} />
         </div>
       </div>
-      <div ref={`scanner`}></div>
+      <div className='scanSignal'></div>
     </div>
     );
   }

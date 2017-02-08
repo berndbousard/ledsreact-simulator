@@ -26,53 +26,57 @@ main, .home {
 }
 
 .directionLight {
-  width: 10rem;
-  height: 10rem;
-  background-color: red;
-  filter: blur(3rem);
-  border-radius: 10rem;
+  width: 5rem;
+  height: 5rem;
+  /*background-color: red;*/
+  filter: blur(1.2rem);
+  border-radius: 6rem;
+  opacity: .8;
   mix-blend-mode: screen;
+  position: absolute;
+  top: 2.5rem;
+  left: 2.5rem;
   /*transition-delay: 1s;*/
 }
 
 .whitelight {
-  width: 2rem;
-  height: 2rem;
-  background-color: white;
+  width: 1.5rem;
+  height: 1.5rem;
   position: absolute;
-  top: 4rem;
-  left: 4rem;
+  top: 4.2rem;
+  left: 4.2rem;
   filter: blur(4px);
   border-radius: 4.5rem;
   z-index: 999;
 }
 
 .lightUP {
-  left: 19.7rem;
-  top: 7rem;
+  left: 5.5rem;
+  top: .9rem;
 }
 
 .lightRIGHT {
-  right: 7.2rem;
-  top: 19.2rem;
+  right: 1rem;
+  top: 5.5rem;
 }
 
 .lightDOWN {
-  left: 19.7rem;
-  bottom: 8.6rem;
+  left: 5.5rem;
+  bottom: 1rem;
 }
 
 .lightLEFT {
-  left: 7.2rem;
-  top: 19.4rem;
+  left: 1rem;
+  top: 5.5rem;
 }
 
 .light {
   width: 10rem;
   height: 10rem;
   position: absolute;
-  transition-delay: 1s;
+  /*transition-delay: 1s;*/
 }
+
 /*
 .lightOff {
   transition-delay: 1s;
@@ -116,22 +120,53 @@ main, .home {
   background-image: url(../assets/linePattern.png), url(../assets/grassPattern.jpg);
   background-size: 70rem, 30rem;
   background-position: 500px 10px, auto;
+  position: relative;
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+}
+
+.scanSignal {
+  background-color: rgba(255, 0, 0, .5);
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 20rem;
+  animation-name: signal;
+  animation-duration: 3s;
+  /*animation-delay: 2s;*/
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  transform: scale(0);
+  opacity: 1;
+}
+
+@keyframes signal {
+
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
 }
 
 .directionwrapper {
-  border-radius: 10rem;
-  background-color: rgba(255, 0, 0, .5);
-
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 3rem;
-
   position: relative;
+
+  transition: all 1s ease;
 }
 
 .direction {
@@ -140,4 +175,20 @@ main, .home {
   background-image: url(../assets/Direction.png);
   background-size: contain;
   background-position: center center;
+  z-index: 999;
+}
+
+.cursorFollower {
+  display: none;
+  width: 3rem;
+  height: 3rem;
+  background: yellow;
+  position: absolute;
+}
+
+.allDirectionsOnField {
+  position: relative;
+  width: 100vw;
+  display:flex;
+  justify-content: center;
 }

@@ -2,29 +2,88 @@ import React, {Component} from 'react';
 import io from 'socket.io-client';
 
 import {Direction} from '../components';
+let currentDirectionIndex = 0;
+
 
 class Field extends Component {
 
   state = {
-    directions: []
+    directions: [],
+    settings: []
   }
 
   componentDidMount() {
+
+    //code voor cursorshit, moet nog een image in gepropt worden
+    // document.addEventListener(`mousemove`, e => {
+    //   const {cursor} = this.refs;
+    //   cursor.style.display = `block`;
+    //   cursor.style.left = `${e.screenX - 0}px`;
+    //   cursor.style.top = `${e.screenY - 105}px`;
+    //   console.log(e.screenX);
+    // });
+
     this.socket = io(`/`, {query: `client=field`});
     this.socket.on(`init`, directions => this.WSInitHandler(directions));
     this.socket.on(`updateDirections`, socketId => this.WSUpdateDirectionsHandler(socketId));
     this.socket.on(`directionJoined`, direction => this.WSDirectionJoinedHandler(direction));
-    this.socket.on(`lightUpDirection`, directionSocketId => this.WSLightUpDirection(directionSocketId));
-    this.socket.on(`changeDirections`, directions => this.WSChangeDirectionsHandler(directions));
+    this.socket.on(`lightUpDirection`, directionLightTrigger => this.WSLightUpDirection(directionLightTrigger));
+    this.socket.on(`changeDirections`, settings => this.WSSettingsDirectionsHandler(settings));
+    this.socket.on(`nexStep`, () => this.WSNextStepHandler());
     // this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
     // this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
     // this.socket.on(`changeFunction`, func => this.WSChangeFunctionHandler(func));
-
   }
 
-  WSChangeDirectionsHandler(directions) {
+
+
+
+
+
+
+  WSNextStepHandler() {
+
+    const {directions, settings} = this.state;
+
+    this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
+
+    directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
+    this.setState(directions);
+
+    if (currentDirectionIndex < directions.length - 1) {
+      currentDirectionIndex ++;
+
+      const directionLightTrigger = {
+        directionSocketId: directions[currentDirectionIndex].socketId,
+        time: false
+      };
+      this.WSLightUpDirection(directionLightTrigger);
+    }
+  }
+
+
+  WSSettingsDirectionsHandler(settings) {
+    // console.log(`settings`, directions);
+    this.setState({settings});
+    const {directions} = this.state;
+
     console.log(directions);
+
+    const directionLightTrigger = {
+      directionSocketId: directions[0].socketId,
+      time: false
+    };
+
+    this.WSLightUpDirection(directionLightTrigger);
   }
+
+
+
+
+
+
+
+
 
   WSInitHandler(directions) {
     this.setState({directions});
@@ -48,18 +107,19 @@ class Field extends Component {
     this.setState({directions});
   }
 
-  WSLightUpDirection(directionSocketId) {
+  WSLightUpDirection(directionLightTrigger) {
     let {directions} = this.state;
+    const {directionSocketId, time} = directionLightTrigger;
 
     directions = directions.map(d => {
       if (d.socketId === directionSocketId) {
         d.allLights = true;
-
-        setTimeout(() => {
-          d.allLights = false;
-          this.setState({directions});
-
-        }, 1000);
+        if (time) {
+          setTimeout(() => {
+            d.allLights = false;
+            this.setState({directions});
+          }, 2000);
+        }
       }
       return d;
     });
@@ -67,14 +127,26 @@ class Field extends Component {
     this.setState({directions});
   }
 
+
+  WSLightOffDirection(directionSocketId) {
+    let {directions} = this.state;
+    directions = directions.map(d => {
+      if (d.socketId === directionSocketId) {
+        d.allLights = false;
+      }
+      return d;
+    });
+    this.setState({directions});
+  }
+
   renderDirections() {
     const {directions} = this.state;
 
-    console.log(directions.length);
-
     return directions.map((d, index) => {
       return (
-        <Direction key={index} {...d} />
+        <div key={index}>
+          <Direction order={index} key={index} {...d} />
+        </div>
       );
     });
   }
@@ -82,6 +154,7 @@ class Field extends Component {
   render() {
     return (
       <section className='fieldPage'>
+        <div className='cursorFollower' ref={`cursor`}></div>
         {this.renderDirections()}
       </section>
     );

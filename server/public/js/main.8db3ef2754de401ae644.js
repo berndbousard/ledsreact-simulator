@@ -9358,9 +9358,10 @@ function error(data){
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Direction__ = __webpack_require__(124);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__Direction__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Direction___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Direction__);
+/* harmony reexport (binding) */ if(__webpack_require__.o(__WEBPACK_IMPORTED_MODULE_0__Direction__, "default")) __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__Direction__["default"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Light__ = __webpack_require__(126);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__Light__["a"]; });
+/* unused harmony reexport Light */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FunctionBar__ = __webpack_require__(125);
 /* unused harmony reexport FunctionBar */
 
@@ -14504,73 +14505,10 @@ module.exports = function(arraybuffer, start, end) {
 
 /***/ }),
 /* 124 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, __webpack_exports__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__(73);
-var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/Direction.js';
-
-
-
-
-var Direction = function Direction(props) {
-
-  console.log(props);
-
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { className: 'directionwrapper', 'data-directionKey': props.socketId, __source: {
-        fileName: _jsxFileName,
-        lineNumber: 10
-      }
-    },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      'div',
-      { className: 'direction', __source: {
-          fileName: _jsxFileName,
-          lineNumber: 11
-        }
-      },
-      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'lightsWrapper', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 12
-          }
-        },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightUP', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 13
-          }
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightRIGHT', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 14
-          }
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightDOWN', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 15
-          }
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightLEFT', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 16
-          }
-        })
-      )
-    )
-  );
-};
-
-Direction.displayName = 'Direction';
-Direction.propTypes = {
-  socketId: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.string
-};
-
-/* harmony default export */ __webpack_exports__["a"] = Direction;
+throw new Error("Module build failed: SyntaxError: Unexpected token (69:38)\n\n\u001b[0m \u001b[90m 67 | \u001b[39m\n \u001b[90m 68 | \u001b[39m    directionwrapper\u001b[33m.\u001b[39mstyle\u001b[33m.\u001b[39mposition \u001b[33m=\u001b[39m \u001b[32m`absolute`\u001b[39m\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 | \u001b[39m    directionwrapper\u001b[33m.\u001b[39mstyle\u001b[33m.\u001b[39mleft \u001b[33m=\u001b[39m \u001b[32m`${()(order + 1) * 50)-30}px`\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 | \u001b[39m    directionwrapper\u001b[33m.\u001b[39mstyle\u001b[33m.\u001b[39mtop \u001b[33m=\u001b[39m \u001b[32m`${window.innerHeight - 200  }px`\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m 71 | \u001b[39m    directionwrapper\u001b[33m.\u001b[39mstyle\u001b[33m.\u001b[39mzIndex \u001b[33m=\u001b[39m \u001b[35m999\u001b[39m \u001b[33m-\u001b[39m order\u001b[33m;\u001b[39m\n \u001b[90m 72 | \u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 125 */
@@ -14622,30 +14560,69 @@ FunctionBar.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/Light.js';
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Light = function Light(props) {
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { className: 'light ' + props.lightPosition, style: props.isActive ? { opacity: 1 } : { opacity: 0 }, __source: {
-        fileName: _jsxFileName,
-        lineNumber: 6
-      }
-    },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'whitelight', __source: {
-        fileName: _jsxFileName,
-        lineNumber: 7
-      }
-    }),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'directionLight', style: { backgroundColor: props.color }, __source: {
-        fileName: _jsxFileName,
-        lineNumber: 8
-      }
-    })
-  );
-};
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var Light = function (_Component) {
+  _inherits(Light, _Component);
+
+  function Light() {
+    _classCallCheck(this, Light);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+  }
+
+  Light.prototype.componentDidMount = function componentDidMount() {};
+
+  Light.prototype.render = function render() {
+    var color = this.props.color;
+    var allLights = this.props.allLights;
+
+    var whiteColor = '';
+
+    if (allLights) {
+      color = 'red';
+    } else {
+      color = this.props.color;
+    }
+
+    if (color !== undefined) {
+      whiteColor = 'white';
+    } else {
+      whiteColor = '';
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'light ' + this.props.lightPosition, ref: 'light', __source: {
+          fileName: _jsxFileName,
+          lineNumber: 28
+        }
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'whitelight', style: { backgroundColor: whiteColor }, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 29
+        }
+      }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'directionLight', style: { backgroundColor: color }, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 30
+        }
+      })
+    );
+  };
+
+  return Light;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 Light.displayName = 'Light';
+
+
 Light.propTypes = {
   allLights: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.bool,
   lightPosition: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.string,
@@ -14656,7 +14633,7 @@ Light.propTypes = {
   inZone: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.bool
 };
 
-/* harmony default export */ __webpack_exports__["a"] = Light;
+/* unused harmony default export */ var _unused_webpack_default_export = Light;
 
 /***/ }),
 /* 127 */
@@ -14730,7 +14707,11 @@ var App = function (_PureComponent) {
     return _this;
   }
 
+  // x, y -> 0 niet deployen
+
+
   App.prototype.componentDidMount = function componentDidMount() {
+
     // this.WSLightUpDirectionHandler();
   };
 
@@ -14769,7 +14750,7 @@ var App = function (_PureComponent) {
       {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80
+          lineNumber: 86
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -14777,7 +14758,7 @@ var App = function (_PureComponent) {
         {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 81
+            lineNumber: 87
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["Match"], {
@@ -14786,13 +14767,13 @@ var App = function (_PureComponent) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__pages_Field__["a" /* default */], {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 86
+                lineNumber: 92
               }
             });
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 82
+            lineNumber: 88
           }
         }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["Match"], {
@@ -14801,13 +14782,13 @@ var App = function (_PureComponent) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__pages_Direction__["a" /* default */], {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 95
+                lineNumber: 101
               }
             });
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 91
+            lineNumber: 97
           }
         })
       )
@@ -14905,6 +14886,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+var currentDirectionIndex = 0;
 
 var Field = function (_Component) {
   _inherits(Field, _Component);
@@ -14919,12 +14901,22 @@ var Field = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
-      directions: []
+      directions: [],
+      settings: []
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   Field.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
+
+    //code voor cursorshit, moet nog een image in gepropt worden
+    // document.addEventListener(`mousemove`, e => {
+    //   const {cursor} = this.refs;
+    //   cursor.style.display = `block`;
+    //   cursor.style.left = `${e.screenX - 0}px`;
+    //   cursor.style.top = `${e.screenY - 105}px`;
+    //   console.log(e.screenX);
+    // });
 
     this.socket = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('/', { query: 'client=field' });
     this.socket.on('init', function (directions) {
@@ -14936,19 +14928,56 @@ var Field = function (_Component) {
     this.socket.on('directionJoined', function (direction) {
       return _this2.WSDirectionJoinedHandler(direction);
     });
-    this.socket.on('lightUpDirection', function (directionSocketId) {
-      return _this2.WSLightUpDirection(directionSocketId);
+    this.socket.on('lightUpDirection', function (directionLightTrigger) {
+      return _this2.WSLightUpDirection(directionLightTrigger);
     });
-    this.socket.on('changeDirections', function (directions) {
-      return _this2.WSChangeDirectionsHandler(directions);
+    this.socket.on('changeDirections', function (settings) {
+      return _this2.WSSettingsDirectionsHandler(settings);
+    });
+    this.socket.on('nexStep', function () {
+      return _this2.WSNextStepHandler();
     });
     // this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
     // this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
     // this.socket.on(`changeFunction`, func => this.WSChangeFunctionHandler(func));
   };
 
-  Field.prototype.WSChangeDirectionsHandler = function WSChangeDirectionsHandler(directions) {
+  Field.prototype.WSNextStepHandler = function WSNextStepHandler() {
+    var _state = this.state,
+        directions = _state.directions,
+        settings = _state.settings;
+
+
+    this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
+
+    directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
+    this.setState(directions);
+
+    if (currentDirectionIndex < directions.length - 1) {
+      currentDirectionIndex++;
+
+      var directionLightTrigger = {
+        directionSocketId: directions[currentDirectionIndex].socketId,
+        time: false
+      };
+      this.WSLightUpDirection(directionLightTrigger);
+    }
+  };
+
+  Field.prototype.WSSettingsDirectionsHandler = function WSSettingsDirectionsHandler(settings) {
+    // console.log(`settings`, directions);
+    this.setState({ settings: settings });
+    var directions = this.state.directions;
+
+
     console.log(directions);
+
+    var directionLightTrigger = {
+      directionSocketId: directions[0].socketId,
+      time: false
+    };
+
+    this.WSLightUpDirection(directionLightTrigger);
   };
 
   Field.prototype.WSInitHandler = function WSInitHandler(directions) {
@@ -14975,20 +15004,23 @@ var Field = function (_Component) {
     this.setState({ directions: directions });
   };
 
-  Field.prototype.WSLightUpDirection = function WSLightUpDirection(directionSocketId) {
+  Field.prototype.WSLightUpDirection = function WSLightUpDirection(directionLightTrigger) {
     var _this3 = this;
 
     var directions = this.state.directions;
+    var directionSocketId = directionLightTrigger.directionSocketId,
+        time = directionLightTrigger.time;
 
 
     directions = directions.map(function (d) {
       if (d.socketId === directionSocketId) {
         d.allLights = true;
-
-        setTimeout(function () {
-          d.allLights = false;
-          _this3.setState({ directions: directions });
-        }, 1000);
+        if (time) {
+          setTimeout(function () {
+            d.allLights = false;
+            _this3.setState({ directions: directions });
+          }, 2000);
+        }
       }
       return d;
     });
@@ -14996,19 +15028,37 @@ var Field = function (_Component) {
     this.setState({ directions: directions });
   };
 
+  Field.prototype.WSLightOffDirection = function WSLightOffDirection(directionSocketId) {
+    var directions = this.state.directions;
+
+    directions = directions.map(function (d) {
+      if (d.socketId === directionSocketId) {
+        d.allLights = false;
+      }
+      return d;
+    });
+    this.setState({ directions: directions });
+  };
+
   Field.prototype.renderDirections = function renderDirections() {
     var directions = this.state.directions;
 
 
-    console.log(directions.length);
-
     return directions.map(function (d, index) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ key: index }, d, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 77
-        }
-      }));
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { key: index, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 147
+          }
+        },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ order: index, key: index }, d, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 148
+          }
+        }))
+      );
     });
   };
 
@@ -15017,9 +15067,14 @@ var Field = function (_Component) {
       'section',
       { className: 'fieldPage', __source: {
           fileName: _jsxFileName,
-          lineNumber: 84
+          lineNumber: 156
         }
       },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'cursorFollower', ref: 'cursor', __source: {
+          fileName: _jsxFileName,
+          lineNumber: 157
+        }
+      }),
       this.renderDirections()
     );
   };
@@ -34991,4 +35046,4 @@ module.exports = __webpack_require__(120);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.fe1aa9bf0f6b5c1d065d.js.map
+//# sourceMappingURL=main.8db3ef2754de401ae644.js.map

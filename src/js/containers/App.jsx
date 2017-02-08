@@ -45,7 +45,13 @@ class App extends PureComponent { // Component zonder state
     };
   }
 
+
+  // x, y -> 0 niet deployen
+
+
   componentDidMount() {
+
+
     // this.WSLightUpDirectionHandler();
   }
 
