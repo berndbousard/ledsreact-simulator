@@ -39,7 +39,7 @@ module.exports = [
       const {_id} = req.params;
       const {exercise} = req.query;
       const query = {};
-      const projection = `-__v`;
+      const projection = `-__v -created`;
 
       if (!isEmpty(_id)) {
         query._id = _id;
@@ -56,7 +56,7 @@ module.exports = [
             select: `name`
           })
           .then(r => {
-            return res({r});
+            return res({direcions: r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
@@ -74,7 +74,7 @@ module.exports = [
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
-            return res({r});
+            return res({directions: r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
