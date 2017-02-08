@@ -87,6 +87,36 @@ module.exports.register = (server, options, next) => {
       });
     });
 
+
+
+
+    socket.on(`setDirectionSettings`, directionSettings => {
+      console.log(`directionsettings`, directionSettings);
+      directions = directions.map((d, index) => {
+        d.settings = directionSettings[index];
+        return d;
+      });
+
+      fields = fields.map(f => {
+        io.to(f.socketId).emit(`changeDirections`, directions);
+        return f;
+      });
+    });
+
+
+
+
+
+    socket.on(`nextStep`, () => {
+      console.log(`next step`);
+    });
+
+
+
+
+
+
+
     socket.on(`disconnect`, () => {
 
       console.log(`disconnect`);

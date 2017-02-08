@@ -15,10 +15,15 @@ class Field extends Component {
     this.socket.on(`updateDirections`, socketId => this.WSUpdateDirectionsHandler(socketId));
     this.socket.on(`directionJoined`, direction => this.WSDirectionJoinedHandler(direction));
     this.socket.on(`lightUpDirection`, directionSocketId => this.WSLightUpDirection(directionSocketId));
+    this.socket.on(`changeDirections`, directions => this.WSChangeDirectionsHandler(directions));
     // this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
     // this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
     // this.socket.on(`changeFunction`, func => this.WSChangeFunctionHandler(func));
 
+  }
+
+  WSChangeDirectionsHandler(directions) {
+    console.log(directions);
   }
 
   WSInitHandler(directions) {

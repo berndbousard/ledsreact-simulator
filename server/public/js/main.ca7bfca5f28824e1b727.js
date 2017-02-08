@@ -14410,7 +14410,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__containers_App__ = __webpack_require__(127);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/script.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/script.js';
 
 
 
@@ -14510,7 +14510,7 @@ module.exports = function(arraybuffer, start, end) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__(73);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/components/Direction.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/Direction.js';
 
 
 
@@ -14579,7 +14579,7 @@ Direction.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/components/FunctionBar.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/FunctionBar.js';
 
 
 var FunctionBar = function FunctionBar(_ref) {
@@ -14620,7 +14620,7 @@ FunctionBar.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/components/Light.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/Light.js';
 
 
 var Light = function Light(props) {
@@ -14669,7 +14669,7 @@ Light.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_router__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_Field__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_Direction__ = __webpack_require__(128);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/containers/App.jsx';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/containers/App.jsx';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14835,7 +14835,7 @@ App.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/pages/Direction.jsx';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/pages/Direction.jsx';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14893,7 +14893,7 @@ Direction.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components__ = __webpack_require__(73);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/pages/Field.jsx';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/pages/Field.jsx';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14938,6 +14938,9 @@ var Field = function (_Component) {
     });
     this.socket.on('lightUpDirection', function (directionSocketId) {
       return _this2.WSLightUpDirection(directionSocketId);
+    });
+    this.socket.on('changeDirections', function (directions) {
+      return _this2.WSChangeDirectionsHandler(directions);
     });
     // this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
     // this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
@@ -14999,7 +15002,7 @@ var Field = function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ key: index }, d, {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 72
+          lineNumber: 73
         }
       }));
     });
@@ -15010,7 +15013,7 @@ var Field = function (_Component) {
       'section',
       { className: 'fieldPage', __source: {
           fileName: _jsxFileName,
-          lineNumber: 79
+          lineNumber: 80
         }
       },
       this.renderDirections()
@@ -34984,4 +34987,4 @@ module.exports = __webpack_require__(120);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.61b47ea3090bf03e2e0b.js.map
+//# sourceMappingURL=main.ca7bfca5f28824e1b727.js.map

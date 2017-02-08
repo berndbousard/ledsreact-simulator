@@ -117,10 +117,10 @@ module.exports = [
         allow: `multipart/form-data`
       },
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
