@@ -1,18 +1,13 @@
 import React, {PureComponent} from 'react';
 import {Match, BrowserRouter as Router} from 'react-router';
-import io from 'socket.io-client';
 
-import Home from '../pages/Home';
+import Field from '../pages/Field';
+import Direction from '../pages/Direction';
 
 class App extends PureComponent { // Component zonder state
 
   constructor() {
     super();
-
-    this.socket = io(`/`, {query: `client=direction`});
-    this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
-    this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
-    this.socket.on(`changeFunction`, func => this.WSChangeFunctionHandler(func));
 
     this.state = {
       allLights: false,
@@ -81,19 +76,27 @@ class App extends PureComponent { // Component zonder state
 
   render() {
 
-    const {allLights, func, data} = this.state;
-
     return (
       <Router>
         <main>
           <Match
-            exactly pattern='/'
+            exactly pattern='/field'
             render={() => {
               return (
-                <Home allLights={allLights} data={data} func={func} />
+                <Field />
               );
             }}
           />
+
+          <Match
+            exactly pattern='/direction'
+            render={() => {
+              return (
+                <Direction />
+              );
+            }}
+          />
+
         </main>
       </Router>
     );

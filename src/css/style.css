@@ -10,38 +10,15 @@ html, body, .react-mount, main {
   width: 100%;
 }
 
-main {
-  background-image: url(../assets/linePattern.png), url(../assets/grassPattern.jpg);
-  background-size: 70rem, 30rem;
-  background-position: 500px 10px, auto;
-}
+/*main {
+
+}*/
 
 main, .home {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-}
-
-.directionwrapper {
-  margin: 0 auto;
-  width: 55rem;
-  border-radius: 55rem;
-  height: 55rem;
-  background-color: rgba(255, 0, 0, .5);
-  position: relative;
-
-}
-
-.direction {
-  top: 3rem;
-  width: 50rem;
-  height: 50rem;
-  margin: 0 auto;
-  background-image: url(../assets/Direction.png);
-  background-size: cover;
-  position: relative;
-  background-position: center center;
 }
 
 .home {
@@ -125,4 +102,42 @@ main, .home {
   font-size: 1rem;
   letter-spacing: .03rem;
   text-transform: uppercase;
+}
+
+.directionPage {
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+}
+
+.fieldPage {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../assets/linePattern.png), url(../assets/grassPattern.jpg);
+  background-size: 70rem, 30rem;
+  background-position: 500px 10px, auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.directionwrapper {
+  border-radius: 10rem;
+  background-color: rgba(255, 0, 0, .5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+
+  position: relative;
+}
+
+.direction {
+  width: 15rem;
+  height: 15rem;
+  background-image: url(../assets/Direction.png);
+  background-size: contain;
+  background-position: center center;
 }

@@ -67,11 +67,9 @@ html, body, .react-mount, main {
   width: 100%;
 }
 
-main {
-  background-image: url(/assets/linePattern.png), url(/assets/grassPattern.jpg);
-  background-size: 70rem, 30rem;
-  background-position: 500px 10px, auto;
-}
+/*main {
+
+}*/
 
 main, .home {
   display: -webkit-box;
@@ -84,32 +82,6 @@ main, .home {
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
-}
-
-.directionwrapper {
-  margin: 0 auto;
-  width: 880px;
-  width: 55rem;
-  border-radius: 55rem;
-  height: 880px;
-  height: 55rem;
-  background-color: rgba(255, 0, 0, .5);
-  position: relative;
-
-}
-
-.direction {
-  top: 48px;
-  top: 3rem;
-  width: 800px;
-  width: 50rem;
-  height: 800px;
-  height: 50rem;
-  margin: 0 auto;
-  background-image: url(/assets/Direction.png);
-  background-size: cover;
-  position: relative;
-  background-position: center center;
 }
 
 .home {
@@ -228,6 +200,63 @@ main, .home {
   letter-spacing: 0.48px;
   letter-spacing: .03rem;
   text-transform: uppercase;
+}
+
+.directionPage {
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+}
+
+.fieldPage {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/assets/linePattern.png), url(/assets/grassPattern.jpg);
+  background-size: 70rem, 30rem;
+  background-position: 500px 10px, auto;
+
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.directionwrapper {
+  border-radius: 10rem;
+  background-color: rgba(255, 0, 0, .5);
+
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 48px;
+  padding: 3rem;
+
+  position: relative;
+}
+
+.direction {
+  width: 240px;
+  width: 15rem;
+  height: 240px;
+  height: 15rem;
+  background-image: url(/assets/Direction.png);
+  background-size: contain;
+  background-position: center center;
 }
 
 /*# sourceMappingURL=style.css.map*/

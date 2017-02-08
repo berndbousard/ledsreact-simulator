@@ -1,35 +1,14 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class Light extends Component {
+const Light = props => {
 
-  componentDidMount() {
-
-    // const {allLights, isActive, color} = this.props;
-    // const {light, lightColor} = this.refs;
-
-    // console.log(allLights);
-
-    /*
-    if (allLights) {
-      lightColor.style.backgroundColor = `red`;
-      setTimeout(() => {
-        lightColor.style.backgroundColor = color;
-      }, 2000);
-    }*/
-  }
-
-  render() {
-    const {allLights, lightPosition, isActive, color, delay} = this.props;
-
-    console.log(color);
-
-    return (
-    <div className={`light ${lightPosition}`} style={isActive ? {opacity: 1} : {opacity: 0}} >
+  return (
+    <div className={`light ${props.lightPosition}`} style={props.isActive ? {opacity: 1} : {opacity: 0}} >
       <div className='whitelight'></div>
-      <div className='directionLight' style={{backgroundColor: color}}></div>
+      <div className='directionLight' style={{backgroundColor: props.color}}></div>
     </div>
-    );}
-}
+  );
+};
 
 Light.propTypes = {
   allLights: React.PropTypes.bool,

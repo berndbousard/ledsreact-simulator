@@ -3,6 +3,7 @@ module.exports.register = (server, options, next) => {
   const io = require(`socket.io`)(server.listener);
 
   let directions = [];
+  let fields = [];
 
   io.on(`connection`, socket => {
 
@@ -13,11 +14,22 @@ module.exports.register = (server, options, next) => {
       console.log(`App is verbonden`);
     }
 
+    if (client === `field`) {
+      console.log(`field is verbonden`);
+
+      const field = {
+        socketId
+      };
+
+      fields.push(field);
+    }
+
     if (client === `direction`) {
       const direction = {
         socketId,
         batteryLevel: Math.round(Math.random() * 100),
-        function: `richting`
+        function: `richting`,
+        x: 0, y: 0
       };
 
       io.to(direction.socketId).emit(`initDirection`, {direction});
@@ -29,8 +41,14 @@ module.exports.register = (server, options, next) => {
       socket.broadcast.emit(`directionJoined`, direction);
     }
 
-    console.log(`---`);
+    console.log(`--Directions--`);
     console.log(directions);
+    console.log(`----`);
+
+    console.log(`--fields--`);
+    console.log(fields);
+    console.log(`----`);
+
     socket.emit(`init`, directions);
 
     //-------------------------------{Direction oplichten als je erop tikt}---------------------------------
@@ -46,6 +64,11 @@ module.exports.register = (server, options, next) => {
       }
 
       io.to(socketId).emit(`lightUp`);
+
+      fields.forEach(f => {
+        console.log(`overlopen`);
+        io.to(f.socketId).emit(`lightUpDirection`, socketId);
+      });
     });
 
     socket.on(`changeDirectionFunction`, ({func, order}) => {
@@ -65,16 +88,24 @@ module.exports.register = (server, options, next) => {
     });
 
     socket.on(`disconnect`, () => {
+
+      console.log(`disconnect`);
+
       if (client === `direction`) {
         console.log(`Direction met als ID ${socketId} is weg`);
         directions = directions.filter(f => {
           return f.socketId !== socketId;
         });
       }
-      console.log(`disconnect`);
 
       if (client === `app`) {
         console.log(`App is weg`);
+      }
+
+      if (client === `field`) {
+        fields = fields.filter(f => {
+          return f.socketId !== socketId;
+        });
       }
 
       socket.broadcast.emit(`updateDirections`, socketId);

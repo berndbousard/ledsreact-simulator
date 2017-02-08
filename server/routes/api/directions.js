@@ -91,10 +91,10 @@ module.exports = [
     path: `${path}`,
     config: {
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
 
@@ -103,23 +103,31 @@ module.exports = [
         },
 
         payload: {
+          x: Joi.number().required(),
+          y: Joi.number().required(),
           exercise: Joi.objectId().required(),
-          function: Joi.objectId().required(),
-          order: Joi.number().required()
+          combineLights: Joi.boolean().required(),
+          delay: Joi.number().required(),
+          directions: Joi.object({
+            top: Joi.object(),
+            bottom: Joi.object(),
+            left: Joi.object(),
+            right: Joi.object()
+          }).required()
         }
 
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`function`, `order`, `exercise`]);
+      const data = pick(req.payload, [`x`, `y`, `exercise`, `delay`, `combineLights`, `directions`]);
       const direction = new Direction(data);
       const projection = [`__v`];
 
       direction.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
-          return res({r});
+          return res({direction: r});
         })
         .catch(e => {
           return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
