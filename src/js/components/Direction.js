@@ -22,9 +22,7 @@ class Direction extends Component {
 
     const {lichten, scanner, directionwrapper} = this.refs;
 
-
     if (props.shutDown) {
-      console.log(`shutdown`);
       scanner.classList.remove(`scanSignal`);
 
       directionwrapper.addEventListener(`mouseenter`, () => {
@@ -52,14 +50,12 @@ class Direction extends Component {
         this.assignColors(settings.combineLights, settings.directions);
         inZone = true;
 
-        console.log(`inEnter`, props.shutDown);
-
         setTimeout(() => {
 
           if (inZone && !props.shutDown) {
             this.lightsOn();
           }
-        }, settings.delay * 100);
+        }, settings.delay * 1000);
       });
 
       directionwrapper.addEventListener(`mouseleave`, () => {

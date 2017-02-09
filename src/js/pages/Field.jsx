@@ -21,6 +21,7 @@ class Field extends Component {
       cursor.style.display = `block`;
       cursor.style.left = `${e.screenX - 50}px`;
       cursor.style.top = `${e.screenY - 170}px`;
+
     });
 
     this.socket = io(`/`, {query: `client=field`});
@@ -60,29 +61,31 @@ class Field extends Component {
   WSNextStepHandler() {
     const {directions, settings} = this.state;
 
+
     setTimeout(() => {
       this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
     }, 1500);
 
 
-    directions[currentDirectionIndex].shutDown = false;
-    directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
+    if (currentDirectionIndex <= settings.length - 1) {
 
 
-    this.setState(directions);
+      directions[currentDirectionIndex].shutDown = false;
+      directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
 
+      this.setState(directions);
 
-    if (currentDirectionIndex < directions.length - 1) {
+      if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
+        setTimeout(() => {
+          currentDirectionIndex ++;
 
-      setTimeout(() => {
-        currentDirectionIndex ++;
-
-        const directionLightTrigger = {
-          directionSocketId: directions[currentDirectionIndex].socketId,
-          time: false
-        };
-        this.WSLightUpDirection(directionLightTrigger);
-      }, 1500);
+          const directionLightTrigger = {
+            directionSocketId: directions[currentDirectionIndex].socketId,
+            time: false
+          };
+          this.WSLightUpDirection(directionLightTrigger);
+        }, 1500);
+      }
 
     }
 
