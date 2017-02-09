@@ -21,8 +21,18 @@ class Direction extends Component {
   componentWillReceiveProps(props) {
 
     const {lichten, scanner, directionwrapper} = this.refs;
-    if (props.settings) {
 
+
+    if (props.shutDown) {
+      console.log(`shutdown`);
+      scanner.classList.remove(`scanSignal`);
+
+      directionwrapper.addEventListener(`mouseenter`, () => {
+        inZone = false;
+      });
+    }
+
+    if (props.settings) {
 
       const x = props.settings.x;
       const y = props.settings.y;
@@ -38,21 +48,23 @@ class Direction extends Component {
 
       this.assignColors(settings.combineLights, settings.directions);
 
-      lichten.addEventListener(`mouseenter`, () => {
+      directionwrapper.addEventListener(`mouseenter`, () => {
         this.assignColors(settings.combineLights, settings.directions);
         inZone = true;
 
+        console.log(`inEnter`, props.shutDown);
+
         setTimeout(() => {
-          console.log(inZone);
-          if (inZone) {
+
+          if (inZone && !props.shutDown) {
             this.lightsOn();
           }
         }, settings.delay * 100);
       });
 
-      lichten.addEventListener(`mouseleave`, () => {
-        if (inZone) {
-          this.lightsOff(settings.combineLights);
+      directionwrapper.addEventListener(`mouseleave`, () => {
+        if (inZone && !props.shutDown) {
+          this.lightsOff();
           inZone = false;
         }
       });
@@ -60,15 +72,16 @@ class Direction extends Component {
   }
 
   componentDidMount() {
+
     this.lightsOff();
 
     const {order} = this.props;
     const {directionwrapper} = this.refs;
 
     directionwrapper.style.position = `absolute`;
-    directionwrapper.style.left = `${((order + 1) * 50) - 30}px`;
+    directionwrapper.style.left = `${((order + 1) * 200) - 200}px`;
     directionwrapper.style.top = `${window.innerHeight - 220  }px`;
-    directionwrapper.style.zIndex = 999 - order;
+    directionwrapper.style.zIndex = 20 - order;
 
   }
 

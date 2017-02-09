@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 
 import {Direction} from '../components';
 let currentDirectionIndex = 0;
+const currentlyBuzzy = true;
 
 
 class Field extends Component {
@@ -14,14 +15,13 @@ class Field extends Component {
 
   componentDidMount() {
 
-    //code voor cursorshit, moet nog een image in gepropt worden
-    // document.addEventListener(`mousemove`, e => {
-    //   const {cursor} = this.refs;
-    //   cursor.style.display = `block`;
-    //   cursor.style.left = `${e.screenX - 0}px`;
-    //   cursor.style.top = `${e.screenY - 105}px`;
-    //   console.log(e.screenX);
-    // });
+    // code voor cursorshit, moet nog een image in gepropt worden
+    document.addEventListener(`mousemove`, e => {
+      const {cursor} = this.refs;
+      cursor.style.display = `block`;
+      cursor.style.left = `${e.screenX - 50}px`;
+      cursor.style.top = `${e.screenY - 170}px`;
+    });
 
     this.socket = io(`/`, {query: `client=field`});
     this.socket.on(`init`, directions => this.WSInitHandler(directions));
@@ -30,35 +30,62 @@ class Field extends Component {
     this.socket.on(`lightUpDirection`, directionLightTrigger => this.WSLightUpDirection(directionLightTrigger));
     this.socket.on(`changeDirections`, settings => this.WSSettingsDirectionsHandler(settings));
     this.socket.on(`nexStep`, () => this.WSNextStepHandler());
+    this.socket.on(`stopExcersize`, () => this.WSStopExcersize());
     // this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
     // this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
     // this.socket.on(`changeFunction`, func => this.WSChangeFunctionHandler(func));
   }
 
 
+  WSStopExcersize() {
+    //
+    currentDirectionIndex = 0;
+    let {directions} = this.state;
 
+    directions = directions.map(d => {
 
+      this.WSLightOffDirection(d.socketId);
 
+      if (d.settings) {
+        delete d.settings;
+        d.shutDown = true;
+      }
+      return d;
+    });
+
+    this.setState({directions});
+  }
 
 
   WSNextStepHandler() {
-
     const {directions, settings} = this.state;
 
-    this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
+    setTimeout(() => {
+      this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
+    }, 1500);
 
+
+    directions[currentDirectionIndex].shutDown = false;
     directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
+
+
     this.setState(directions);
 
-    if (currentDirectionIndex < directions.length - 1) {
-      currentDirectionIndex ++;
 
-      const directionLightTrigger = {
-        directionSocketId: directions[currentDirectionIndex].socketId,
-        time: false
-      };
-      this.WSLightUpDirection(directionLightTrigger);
+    if (currentDirectionIndex < directions.length - 1) {
+
+      setTimeout(() => {
+        currentDirectionIndex ++;
+
+        const directionLightTrigger = {
+          directionSocketId: directions[currentDirectionIndex].socketId,
+          time: false
+        };
+        this.WSLightUpDirection(directionLightTrigger);
+      }, 1500);
+
     }
+
   }
 
 

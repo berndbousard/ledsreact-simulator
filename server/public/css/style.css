@@ -56,7 +56,7 @@ html {
 *, *::before, *::after { /* stylelint-disable-line */
   box-sizing: inherit;
 }
-body {
+ body {
   font-family: Roboto;
   font-size: 48px;
   font-size: 3rem;
@@ -87,6 +87,10 @@ main, .home {
 .home {
   padding: 32px;
   padding: 2rem;
+}
+
+.lightsWrapper{
+  /*transform: scale(1.2)*/
 }
 
 .directionLight {
@@ -129,31 +133,31 @@ main, .home {
 }
 
 .lightUP {
-  left: 88px;
-  left: 5.5rem;
-  top: 14.4px;
-  top: .9rem;
+  left: 40px;
+  left: 2.5rem;
+  top: -24px;
+  top: -1.5rem;
 }
 
 .lightRIGHT {
-  right: 16px;
-  right: 1rem;
-  top: 88px;
-  top: 5.5rem;
+  right: -24px;
+  right: -1.5rem;
+  top: 38.4px;
+  top: 2.4rem;
 }
 
 .lightDOWN {
-  left: 88px;
-  left: 5.5rem;
-  bottom: 16px;
-  bottom: 1rem;
+  left: 40px;
+  left: 2.5rem;
+  bottom: -24px;
+  bottom: -1.5rem;
 }
 
 .lightLEFT {
-  left: 16px;
-  left: 1rem;
-  top: 88px;
-  top: 5.5rem;
+  left: -24px;
+  left: -1.5rem;
+  top: 38.4px;
+  top: 2.4rem;
 }
 
 .light {
@@ -216,15 +220,13 @@ main, .home {
 .fieldPage {
   width: 100vw;
   height: 100vh;
-  background-image: url(/assets/linePattern.png), url(/assets/grassPattern.jpg);
-  background-size: 70rem, 30rem;
-  background-position: 500px 10px, auto;
+  background-image: url(/assets/fieldlijnen1.png), url(/assets/fieldlijnen2.png), url(/assets/grassPattern.jpg);
+  background-size: 85%, 85%, 30rem;
+  background-position: top center, bottom center, center center;
   position: relative;
-
+  background-repeat: no-repeat, no-repeat, repeat;
   display: -webkit-box;
-
   display: -ms-flexbox;
-
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -232,15 +234,17 @@ main, .home {
   -webkit-box-align: end;
       -ms-flex-align: end;
           align-items: flex-end;
+
+  cursor: url(/assets/kop1.png), auto;
 }
 
 .scanSignal {
   background-color: rgba(255, 0, 0, .5);
   position: absolute;
-  width: 320px;
-  width: 20rem;
-  height: 320px;
-  height: 20rem;
+  width: 368px;
+  width: 23rem;
+  height: 368px;
+  height: 23rem;
   border-radius: 20rem;
   -webkit-animation-name: signal;
           animation-name: signal;
@@ -254,6 +258,7 @@ main, .home {
   -webkit-transform: scale(0);
           transform: scale(0);
   opacity: 1;
+  z-index: 5;
 }
 
 @-webkit-keyframes signal {
@@ -295,6 +300,9 @@ main, .home {
 }
 
 .directionwrapper {
+  z-index: 10;
+  -webkit-transform: scale(1.4, 1.4);
+          transform: scale(1.4, 1.4);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -307,13 +315,13 @@ main, .home {
   padding: 48px;
   padding: 3rem;
   position: relative;
-
   -webkit-transition: all 1s ease;
-
   transition: all 1s ease;
 }
 
 .direction {
+  -webkit-transform: scale(.8, .8);
+          transform: scale(.8, .8);
   width: 240px;
   width: 15rem;
   height: 240px;
@@ -321,25 +329,31 @@ main, .home {
   background-image: url(/assets/Direction.png);
   background-size: contain;
   background-position: center center;
-  z-index: 999;
+  z-index: 9;
 }
 
 .cursorFollower {
+  z-index: 100;
+  pointer-events: none;
   display: none;
-  width: 48px;
-  width: 3rem;
-  height: 48px;
-  height: 3rem;
-  background: yellow;
+  width: 160px;
+  width: 10rem;
+  height: 240px;
+  height: 15rem;
   position: absolute;
+  background-image: url(/assets/kop1.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
 }
 
 .allDirectionsOnField {
   position: relative;
   width: 100vw;
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;

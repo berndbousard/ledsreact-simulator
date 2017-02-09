@@ -112,6 +112,15 @@ module.exports.register = (server, options, next) => {
     });
 
 
+    socket.on(`stopExcersize`, () => {
+
+      fields = fields.map(f => {
+        io.to(f.socketId).emit(`stopExcersize`);
+        return f;
+      });
+    });
+
+
 
 
 
