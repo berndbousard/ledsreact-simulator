@@ -62,6 +62,9 @@ class Field extends Component {
     const {directions, settings} = this.state;
 
 
+    console.log(`settings`, settings);
+
+
     setTimeout(() => {
       this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
     }, 1500);
@@ -73,7 +76,7 @@ class Field extends Component {
       directions[currentDirectionIndex].shutDown = false;
       directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
 
-      this.setState(directions);
+      this.setState({directions});
 
       if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
         setTimeout(() => {

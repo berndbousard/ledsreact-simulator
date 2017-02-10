@@ -14559,7 +14559,6 @@ var Direction = function (_Component) {
 
 
     if (props.shutDown) {
-      console.log('shutdown');
       scanner.classList.remove('scanSignal');
 
       directionwrapper.addEventListener('mouseenter', function () {
@@ -14588,8 +14587,6 @@ var Direction = function (_Component) {
         directionwrapper.addEventListener('mouseenter', function () {
           _this2.assignColors(settings.combineLights, settings.directions);
           inZone = true;
-
-          console.log('inEnter', props.shutDown);
 
           setTimeout(function () {
 
@@ -14683,48 +14680,48 @@ var Direction = function (_Component) {
       'div',
       { className: 'directionwrapper', ref: 'directionwrapper', 'data-directionKey': this.props.socketId, __source: {
           fileName: _jsxFileName,
-          lineNumber: 140
+          lineNumber: 137
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'direction', __source: {
             fileName: _jsxFileName,
-            lineNumber: 141
+            lineNumber: 138
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'lightsWrapper', ref: 'lichten', __source: {
               fileName: _jsxFileName,
-              lineNumber: 142
+              lineNumber: 139
             }
           },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightUP', allLights: allLights, color: kleuren.top, __source: {
               fileName: _jsxFileName,
-              lineNumber: 144
+              lineNumber: 141
             }
           }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightRIGHT', allLights: allLights, color: kleuren.right, __source: {
               fileName: _jsxFileName,
-              lineNumber: 145
+              lineNumber: 142
             }
           }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightDOWN', allLights: allLights, color: kleuren.bottom, __source: {
               fileName: _jsxFileName,
-              lineNumber: 146
+              lineNumber: 143
             }
           }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightLEFT', allLights: allLights, color: kleuren.left, __source: {
               fileName: _jsxFileName,
-              lineNumber: 147
+              lineNumber: 144
             }
           })
         )
       ),
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { ref: 'scanner', __source: {
           fileName: _jsxFileName,
-          lineNumber: 150
+          lineNumber: 147
         }
       })
     );
@@ -15210,21 +15207,20 @@ var Field = function (_Component) {
         settings = _state.settings;
 
 
+    console.log('settings', settings);
+
     setTimeout(function () {
       _this4.WSLightOffDirection(directions[currentDirectionIndex].socketId);
     }, 1500);
 
     if (currentDirectionIndex <= settings.length - 1) {
 
-      console.log('current Index', currentDirectionIndex);
-      console.log('setting', settings.length - 1);
-
       directions[currentDirectionIndex].shutDown = false;
       directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
 
       this.setState(directions);
 
-      if (currentDirectionIndex < settings.length - 1) {
+      if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
         setTimeout(function () {
           currentDirectionIndex++;
 
@@ -15323,13 +15319,13 @@ var Field = function (_Component) {
         'div',
         { key: index, __source: {
             fileName: _jsxFileName,
-            lineNumber: 179
+            lineNumber: 180
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ order: index, key: index }, d, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 180
+            lineNumber: 181
           }
         }))
       );
@@ -15341,12 +15337,12 @@ var Field = function (_Component) {
       'section',
       { className: 'fieldPage', __source: {
           fileName: _jsxFileName,
-          lineNumber: 188
+          lineNumber: 189
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'cursorFollower', ref: 'cursor', __source: {
           fileName: _jsxFileName,
-          lineNumber: 189
+          lineNumber: 190
         }
       }),
       this.renderDirections()
@@ -35320,4 +35316,4 @@ module.exports = __webpack_require__(120);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.9424e543379d9c531868.js.map
+//# sourceMappingURL=main.4c06a40473af0575b393.js.map
