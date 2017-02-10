@@ -45,12 +45,13 @@ class Field extends Component {
 
     directions = directions.map(d => {
 
-      this.WSLightOffDirection(d.socketId);
-
       if (d.settings) {
         delete d.settings;
         d.shutDown = true;
       }
+
+      this.WSLightOffDirection(d.socketId);
+
       return d;
     });
 
@@ -61,37 +62,27 @@ class Field extends Component {
   WSNextStepHandler() {
     const {directions, settings} = this.state;
 
+    directions[currentDirectionIndex].shutdown = false;
+    directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
 
-    console.log(`settings`, settings);
-
+    this.setState({directions});
 
     setTimeout(() => {
       this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
     }, 1500);
 
 
-    if (currentDirectionIndex <= settings.length - 1) {
+    if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
+      setTimeout(() => {
+        currentDirectionIndex ++;
 
-
-      directions[currentDirectionIndex].shutDown = false;
-      directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
-
-      this.setState({directions});
-
-      if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
-        setTimeout(() => {
-          currentDirectionIndex ++;
-
-          const directionLightTrigger = {
-            directionSocketId: directions[currentDirectionIndex].socketId,
-            time: false
-          };
-          this.WSLightUpDirection(directionLightTrigger);
-        }, 1500);
-      }
-
+        const directionLightTrigger = {
+          directionSocketId: directions[currentDirectionIndex].socketId,
+          time: false
+        };
+        this.WSLightUpDirection(directionLightTrigger);
+      }, 1500);
     }
-
   }
 
 
@@ -100,8 +91,6 @@ class Field extends Component {
     this.setState({settings});
     const {directions} = this.state;
 
-    console.log(directions);
-
     const directionLightTrigger = {
       directionSocketId: directions[0].socketId,
       time: false
@@ -109,13 +98,6 @@ class Field extends Component {
 
     this.WSLightUpDirection(directionLightTrigger);
   }
-
-
-
-
-
-
-
 
 
   WSInitHandler(directions) {
@@ -162,13 +144,16 @@ class Field extends Component {
 
 
   WSLightOffDirection(directionSocketId) {
+
     let {directions} = this.state;
+
     directions = directions.map(d => {
       if (d.socketId === directionSocketId) {
         d.allLights = false;
       }
       return d;
     });
+
     this.setState({directions});
   }
 
