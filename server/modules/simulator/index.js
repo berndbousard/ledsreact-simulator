@@ -28,7 +28,6 @@ module.exports.register = (server, options, next) => {
       const direction = {
         socketId,
         batteryLevel: Math.round(Math.random() * 100),
-        function: `richting`,
         x: 0, y: 0
       };
 
@@ -86,6 +85,46 @@ module.exports.register = (server, options, next) => {
         return d;
       });
     });
+
+
+
+    socket.on(`setDirectionSettings`, directionSettings => {
+      // console.log(`directionsettings`, directionSettings);
+      // directions = directions.map((d, index) => {
+      //   if (index < directionSettings.length) {
+      //     d.settings = directionSettings[index];
+      //     return d;
+      //   }
+      // });
+
+      fields = fields.map(f => {
+        io.to(f.socketId).emit(`changeDirections`, directionSettings);
+        return f;
+      });
+    });
+
+
+    socket.on(`nextStep`, () => {
+      fields = fields.map(f => {
+        io.to(f.socketId).emit(`nexStep`);
+        return f;
+      });
+    });
+
+
+    socket.on(`stopExcersize`, () => {
+
+      fields = fields.map(f => {
+        io.to(f.socketId).emit(`stopExcersize`);
+        return f;
+      });
+    });
+
+
+
+
+
+
 
     socket.on(`disconnect`, () => {
 

@@ -97,14 +97,13 @@ module.exports = [
           email: Joi.string().required(),
           password: Joi.string().required(),
           type: Joi.number().required(),
-          sport: Joi.objectId().required(),
-          obj: Joi.object().required()
+          sport: Joi.objectId().required()
         }
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `type`, `image`, `scope`, `isActive`, `created`, `obj`]);
+      const data = pick(req.payload, [`name`, `email`, `password`, `sport`, `type`, `image`, `scope`, `isActive`, `created`]);
       const user = new User(data);
       const projection = [`__v`, `password`, `isActive`];
 

@@ -14410,7 +14410,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__containers_App__ = __webpack_require__(127);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/script.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/script.js';
 
 
 
@@ -14510,64 +14510,236 @@ module.exports = function(arraybuffer, start, end) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__(73);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/components/Direction.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/Direction.js';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
 
 
-var Direction = function Direction(props) {
 
-  console.log(props);
+var richtingen = ['top', 'left', 'right', 'bottom'];
+var inZone = false;
 
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { className: 'directionwrapper', 'data-directionKey': props.socketId, __source: {
-        fileName: _jsxFileName,
-        lineNumber: 10
+var Direction = function (_Component) {
+  _inherits(Direction, _Component);
+
+  function Direction() {
+    var _temp, _this, _ret;
+
+    _classCallCheck(this, Direction);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
+      allLights: false,
+      settings: {},
+      kleuren: {
+        top: '',
+        right: '',
+        bottom: '',
+        left: ''
       }
-    },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+    }, _temp), _possibleConstructorReturn(_this, _ret);
+  }
+
+  Direction.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
+    var _this2 = this;
+
+    var _refs = this.refs,
+        lichten = _refs.lichten,
+        scanner = _refs.scanner,
+        directionwrapper = _refs.directionwrapper;
+
+
+    if (props.shutDown) {
+      console.log('shutdown');
+      scanner.classList.remove('scanSignal');
+
+      directionwrapper.addEventListener('mouseenter', function () {
+        inZone = false;
+      });
+    }
+
+    if (props.settings) {
+      (function () {
+
+        var x = props.settings.x;
+        var y = props.settings.y;
+
+        directionwrapper.style.position = 'absolute';
+        directionwrapper.style.left = x * window.innerWidth + 'px';
+        directionwrapper.style.top = y * window.innerHeight + 'px';
+
+        scanner.classList.add('scanSignal');
+
+        var settings = props.settings;
+
+        _this2.setState({ settings: settings });
+
+        _this2.assignColors(settings.combineLights, settings.directions);
+
+        directionwrapper.addEventListener('mouseenter', function () {
+          _this2.assignColors(settings.combineLights, settings.directions);
+          inZone = true;
+
+          console.log('inEnter', props.shutDown);
+
+          setTimeout(function () {
+
+            if (inZone && !props.shutDown) {
+              _this2.lightsOn();
+            }
+          }, settings.delay * 100);
+        });
+
+        directionwrapper.addEventListener('mouseleave', function () {
+          if (inZone && !props.shutDown) {
+            _this2.lightsOff();
+            inZone = false;
+          }
+        });
+      })();
+    }
+  };
+
+  Direction.prototype.componentDidMount = function componentDidMount() {
+
+    this.lightsOff();
+
+    var order = this.props.order;
+    var directionwrapper = this.refs.directionwrapper;
+
+
+    directionwrapper.style.position = 'absolute';
+    directionwrapper.style.left = (order + 1) * 200 - 200 + 'px';
+    directionwrapper.style.top = window.innerHeight - 220 + 'px';
+    directionwrapper.style.zIndex = 20 - order;
+  };
+
+  Direction.prototype.lightsOn = function lightsOn() {
+    if (this.refs.lichten) {
+      var lichten = this.refs.lichten;
+
+      lichten.style.opacity = 1;
+    }
+  };
+
+  Direction.prototype.lightsOff = function lightsOff() {
+    if (this.refs.lichten) {
+      var lichten = this.refs.lichten;
+
+      lichten.style.opacity = 0;
+    }
+  };
+
+  Direction.prototype.assignColors = function assignColors(combine, directions) {
+    var kleuren = this.state.kleuren;
+
+
+    for (var i = 0; i < richtingen.length; i++) {
+      kleuren[richtingen[i]] = directions[richtingen[i]].colors[Math.floor(Math.random() * directions[richtingen[i]].colors.length)];
+    }
+
+    var randomColor = void 0;
+    var randomRichting = void 0;
+
+    if (!combine) {
+      while (randomColor === undefined) {
+        var randomValue = Math.floor(Math.random() * richtingen.length);
+        randomColor = kleuren[richtingen[randomValue]];
+        randomRichting = richtingen[randomValue];
+      }
+
+      for (var _i = 0; _i < richtingen.length; _i++) {
+        // console.log(richtingen[i], directions[richtingen[i]].colors);
+        if (richtingen[_i] !== randomRichting) {
+          kleuren[richtingen[_i]] = undefined;
+        }
+      }
+    }
+
+    this.setState({ kleuren: kleuren });
+  };
+
+  Direction.prototype.render = function render() {
+    var allLights = this.props.allLights;
+    var kleuren = this.state.kleuren;
+
+
+    if (allLights) {
+      this.lightsOn();
+    } else {
+      this.lightsOff();
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       'div',
-      { className: 'direction', __source: {
+      { className: 'directionwrapper', ref: 'directionwrapper', 'data-directionKey': this.props.socketId, __source: {
           fileName: _jsxFileName,
-          lineNumber: 11
+          lineNumber: 140
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'lightsWrapper', __source: {
+        { className: 'direction', __source: {
             fileName: _jsxFileName,
-            lineNumber: 12
+            lineNumber: 141
           }
         },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightUP', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 13
-          }
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightRIGHT', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 14
-          }
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightDOWN', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 15
-          }
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightLEFT', __source: {
-            fileName: _jsxFileName,
-            lineNumber: 16
-          }
-        })
-      )
-    )
-  );
-};
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'lightsWrapper', ref: 'lichten', __source: {
+              fileName: _jsxFileName,
+              lineNumber: 142
+            }
+          },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightUP', allLights: allLights, color: kleuren.top, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 144
+            }
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightRIGHT', allLights: allLights, color: kleuren.right, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 145
+            }
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightDOWN', allLights: allLights, color: kleuren.bottom, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 146
+            }
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightLEFT', allLights: allLights, color: kleuren.left, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 147
+            }
+          })
+        )
+      ),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { ref: 'scanner', __source: {
+          fileName: _jsxFileName,
+          lineNumber: 150
+        }
+      })
+    );
+  };
+
+  return Direction;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 Direction.displayName = 'Direction';
+
+
 Direction.propTypes = {
-  socketId: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.string
+  socketId: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.string,
+  allLights: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.bool,
+  settings: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.object
 };
 
 /* harmony default export */ __webpack_exports__["a"] = Direction;
@@ -14579,7 +14751,7 @@ Direction.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/components/FunctionBar.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/FunctionBar.js';
 
 
 var FunctionBar = function FunctionBar(_ref) {
@@ -14620,32 +14792,71 @@ FunctionBar.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/components/Light.js';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/components/Light.js';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
-var Light = function Light(props) {
 
-  return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-    'div',
-    { className: 'light ' + props.lightPosition, style: props.isActive ? { opacity: 1 } : { opacity: 0 }, __source: {
-        fileName: _jsxFileName,
-        lineNumber: 6
-      }
-    },
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'whitelight', __source: {
-        fileName: _jsxFileName,
-        lineNumber: 7
-      }
-    }),
-    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'directionLight', style: { backgroundColor: props.color }, __source: {
-        fileName: _jsxFileName,
-        lineNumber: 8
-      }
-    })
-  );
-};
+var Light = function (_Component) {
+  _inherits(Light, _Component);
+
+  function Light() {
+    _classCallCheck(this, Light);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+  }
+
+  Light.prototype.componentDidMount = function componentDidMount() {};
+
+  Light.prototype.render = function render() {
+    var color = this.props.color;
+    var allLights = this.props.allLights;
+
+    var whiteColor = '';
+
+    if (allLights) {
+      color = 'red';
+    } else {
+      color = this.props.color;
+    }
+
+    if (color !== undefined) {
+      whiteColor = 'white';
+    } else {
+      whiteColor = '';
+    }
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+      'div',
+      { className: 'light ' + this.props.lightPosition, ref: 'light', __source: {
+          fileName: _jsxFileName,
+          lineNumber: 28
+        }
+      },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'whitelight', style: { backgroundColor: whiteColor }, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 29
+        }
+      }),
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'directionLight', style: { backgroundColor: color }, __source: {
+          fileName: _jsxFileName,
+          lineNumber: 30
+        }
+      })
+    );
+  };
+
+  return Light;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 Light.displayName = 'Light';
+
+
 Light.propTypes = {
   allLights: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.bool,
   lightPosition: __WEBPACK_IMPORTED_MODULE_0_react___default.a.PropTypes.string,
@@ -14669,7 +14880,7 @@ Light.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_router__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_Field__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_Direction__ = __webpack_require__(128);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/containers/App.jsx';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/containers/App.jsx';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14730,7 +14941,11 @@ var App = function (_PureComponent) {
     return _this;
   }
 
+  // x, y -> 0 niet deployen
+
+
   App.prototype.componentDidMount = function componentDidMount() {
+
     // this.WSLightUpDirectionHandler();
   };
 
@@ -14769,7 +14984,7 @@ var App = function (_PureComponent) {
       {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 80
+          lineNumber: 86
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -14777,7 +14992,7 @@ var App = function (_PureComponent) {
         {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 81
+            lineNumber: 87
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["Match"], {
@@ -14786,13 +15001,13 @@ var App = function (_PureComponent) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__pages_Field__["a" /* default */], {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 86
+                lineNumber: 92
               }
             });
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 82
+            lineNumber: 88
           }
         }),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["Match"], {
@@ -14801,13 +15016,13 @@ var App = function (_PureComponent) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__pages_Direction__["a" /* default */], {
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 95
+                lineNumber: 101
               }
             });
           },
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 91
+            lineNumber: 97
           }
         })
       )
@@ -14835,7 +15050,7 @@ App.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/pages/Direction.jsx';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/pages/Direction.jsx';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14893,7 +15108,7 @@ Direction.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components__ = __webpack_require__(73);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _jsxFileName = '/Users/Berndbousard/Desktop/ledsreact/simulator/src/js/pages/Field.jsx';
+var _jsxFileName = '/Users/JonasDevacht/Desktop/Major-Ledsreact/ledsreact-simulator/src/js/pages/Field.jsx';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -14905,6 +15120,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+var currentDirectionIndex = 0;
+var currentlyBuzzy = true;
 
 var Field = function (_Component) {
   _inherits(Field, _Component);
@@ -14919,12 +15136,23 @@ var Field = function (_Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.state = {
-      directions: []
+      directions: [],
+      settings: []
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   Field.prototype.componentDidMount = function componentDidMount() {
     var _this2 = this;
+
+    // code voor cursorshit, moet nog een image in gepropt worden
+    document.addEventListener('mousemove', function (e) {
+      var cursor = _this2.refs.cursor;
+
+      cursor.style.display = 'block';
+      cursor.style.left = e.screenX + 'px';
+      console.log(e.screenX);
+      cursor.style.top = e.screenY - 170 + 'px';
+    });
 
     this.socket = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('/', { query: 'client=field' });
     this.socket.on('init', function (directions) {
@@ -14936,12 +15164,90 @@ var Field = function (_Component) {
     this.socket.on('directionJoined', function (direction) {
       return _this2.WSDirectionJoinedHandler(direction);
     });
-    this.socket.on('lightUpDirection', function (directionSocketId) {
-      return _this2.WSLightUpDirection(directionSocketId);
+    this.socket.on('lightUpDirection', function (directionLightTrigger) {
+      return _this2.WSLightUpDirection(directionLightTrigger);
+    });
+    this.socket.on('changeDirections', function (settings) {
+      return _this2.WSSettingsDirectionsHandler(settings);
+    });
+    this.socket.on('nexStep', function () {
+      return _this2.WSNextStepHandler();
+    });
+    this.socket.on('stopExcersize', function () {
+      return _this2.WSStopExcersize();
     });
     // this.socket.on(`lightUp`, () => this.WSLightUpDirectionHandler());
     // this.socket.on(`initDirection`, direction => this.handleWSLightDirectionInit(direction));
     // this.socket.on(`changeFunction`, func => this.WSChangeFunctionHandler(func));
+  };
+
+  Field.prototype.WSStopExcersize = function WSStopExcersize() {
+    var _this3 = this;
+
+    //
+    currentDirectionIndex = 0;
+    var directions = this.state.directions;
+
+
+    directions = directions.map(function (d) {
+
+      _this3.WSLightOffDirection(d.socketId);
+
+      if (d.settings) {
+        delete d.settings;
+        d.shutDown = true;
+      }
+      return d;
+    });
+
+    this.setState({ directions: directions });
+  };
+
+  Field.prototype.WSNextStepHandler = function WSNextStepHandler() {
+    var _this4 = this;
+
+    var _state = this.state,
+        directions = _state.directions,
+        settings = _state.settings;
+
+
+    setTimeout(function () {
+      _this4.WSLightOffDirection(directions[currentDirectionIndex].socketId);
+    }, 1500);
+
+    directions[currentDirectionIndex].shutDown = false;
+    directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
+
+    this.setState(directions);
+
+    if (currentDirectionIndex < directions.length - 1) {
+
+      setTimeout(function () {
+        currentDirectionIndex++;
+
+        var directionLightTrigger = {
+          directionSocketId: directions[currentDirectionIndex].socketId,
+          time: false
+        };
+        _this4.WSLightUpDirection(directionLightTrigger);
+      }, 1500);
+    }
+  };
+
+  Field.prototype.WSSettingsDirectionsHandler = function WSSettingsDirectionsHandler(settings) {
+    // console.log(`settings`, directions);
+    this.setState({ settings: settings });
+    var directions = this.state.directions;
+
+
+    console.log(directions);
+
+    var directionLightTrigger = {
+      directionSocketId: directions[0].socketId,
+      time: false
+    };
+
+    this.WSLightUpDirection(directionLightTrigger);
   };
 
   Field.prototype.WSInitHandler = function WSInitHandler(directions) {
@@ -14968,20 +15274,23 @@ var Field = function (_Component) {
     this.setState({ directions: directions });
   };
 
-  Field.prototype.WSLightUpDirection = function WSLightUpDirection(directionSocketId) {
-    var _this3 = this;
+  Field.prototype.WSLightUpDirection = function WSLightUpDirection(directionLightTrigger) {
+    var _this5 = this;
 
     var directions = this.state.directions;
+    var directionSocketId = directionLightTrigger.directionSocketId,
+        time = directionLightTrigger.time;
 
 
     directions = directions.map(function (d) {
       if (d.socketId === directionSocketId) {
         d.allLights = true;
-
-        setTimeout(function () {
-          d.allLights = false;
-          _this3.setState({ directions: directions });
-        }, 1000);
+        if (time) {
+          setTimeout(function () {
+            d.allLights = false;
+            _this5.setState({ directions: directions });
+          }, 2000);
+        }
       }
       return d;
     });
@@ -14989,19 +15298,37 @@ var Field = function (_Component) {
     this.setState({ directions: directions });
   };
 
+  Field.prototype.WSLightOffDirection = function WSLightOffDirection(directionSocketId) {
+    var directions = this.state.directions;
+
+    directions = directions.map(function (d) {
+      if (d.socketId === directionSocketId) {
+        d.allLights = false;
+      }
+      return d;
+    });
+    this.setState({ directions: directions });
+  };
+
   Field.prototype.renderDirections = function renderDirections() {
     var directions = this.state.directions;
 
 
-    console.log(directions.length);
-
     return directions.map(function (d, index) {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ key: index }, d, {
-        __source: {
-          fileName: _jsxFileName,
-          lineNumber: 72
-        }
-      }));
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { key: index, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 176
+          }
+        },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ order: index, key: index }, d, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 177
+          }
+        }))
+      );
     });
   };
 
@@ -15010,9 +15337,14 @@ var Field = function (_Component) {
       'section',
       { className: 'fieldPage', __source: {
           fileName: _jsxFileName,
-          lineNumber: 79
+          lineNumber: 185
         }
       },
+      __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'cursorFollower', ref: 'cursor', __source: {
+          fileName: _jsxFileName,
+          lineNumber: 186
+        }
+      }),
       this.renderDirections()
     );
   };
@@ -34984,4 +35316,4 @@ module.exports = __webpack_require__(120);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.61b47ea3090bf03e2e0b.js.map
+//# sourceMappingURL=main.fa91a8978c34e9956df0.js.map

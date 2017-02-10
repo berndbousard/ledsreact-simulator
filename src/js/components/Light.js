@@ -1,14 +1,37 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const Light = props => {
+class Light extends Component {
 
-  return (
-    <div className={`light ${props.lightPosition}`} style={props.isActive ? {opacity: 1} : {opacity: 0}} >
-      <div className='whitelight'></div>
-      <div className='directionLight' style={{backgroundColor: props.color}}></div>
+  componentDidMount() {
+
+  }
+
+  render() {
+
+    let {color} = this.props;
+    const {allLights} = this.props;
+    let whiteColor = ``;
+
+    if (allLights) {
+      color = `red`;
+    } else {
+      color = this.props.color;
+    }
+
+    if (color !== undefined) {
+      whiteColor = `white`;
+    } else {
+      whiteColor = ``;
+    }
+
+    return (
+    <div className={`light ${this.props.lightPosition}`} ref={`light`} >
+      <div className='whitelight' style={{backgroundColor: whiteColor}}></div>
+      <div className='directionLight' style={{backgroundColor: color}}></div>
     </div>
-  );
-};
+    );
+  }
+}
 
 Light.propTypes = {
   allLights: React.PropTypes.bool,

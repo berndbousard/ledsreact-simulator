@@ -48,11 +48,6 @@ const schema = new Schema ({
     default: true
   },
 
-  obj: {
-    type: Object,
-    required: true
-  },
-
   created: {
     type: Date,
     default: Date.now()
