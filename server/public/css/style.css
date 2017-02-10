@@ -1,0 +1,358 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit; /* stylelint-disable-line */
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, main {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote::before, blockquote::after,
+q::before, q::after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+*, *::before, *::after { /* stylelint-disable-line */
+  box-sizing: inherit;
+}
+body {
+  font-family: Roboto;
+  font-size: 48px;
+  font-size: 3rem;
+}
+
+html, body, .react-mount, main {
+  height: 100%;
+  width: 100%;
+}
+
+/*main {
+
+}*/
+
+main, .home {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+}
+
+.home {
+  padding: 32px;
+  padding: 2rem;
+}
+
+.directionLight {
+  width: 80px;
+  width: 5rem;
+  height: 80px;
+  height: 5rem;
+  /*background-color: red;*/
+  filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="19.2" /></filter></svg>#filter');
+  -webkit-filter: blur(19.2px);
+          filter: blur(19.2px);
+  -webkit-filter: blur(1.2rem);
+          filter: blur(1.2rem);
+  border-radius: 6rem;
+  opacity: .8;
+  mix-blend-mode: screen;
+  position: absolute;
+  top: 40px;
+  top: 2.5rem;
+  left: 40px;
+  left: 2.5rem;
+  /*transition-delay: 1s;*/
+}
+
+.whitelight {
+  width: 24px;
+  width: 1.5rem;
+  height: 24px;
+  height: 1.5rem;
+  position: absolute;
+  top: 67.2px;
+  top: 4.2rem;
+  left: 67.2px;
+  left: 4.2rem;
+  filter: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="filter"><feGaussianBlur stdDeviation="4" /></filter></svg>#filter');
+  -webkit-filter: blur(4px);
+          filter: blur(4px);
+  border-radius: 4.5rem;
+  z-index: 999;
+}
+
+.lightUP {
+  left: 40px;
+  left: 2.5rem;
+  top: -24px;
+  top: -1.5rem;
+}
+
+.lightRIGHT {
+  right: -24px;
+  right: -1.5rem;
+  top: 38.4px;
+  top: 2.4rem;
+}
+
+.lightDOWN {
+  left: 40px;
+  left: 2.5rem;
+  bottom: -24px;
+  bottom: -1.5rem;
+}
+
+.lightLEFT {
+  left: -24px;
+  left: -1.5rem;
+  top: 38.4px;
+  top: 2.4rem;
+}
+
+.light {
+  width: 160px;
+  width: 10rem;
+  height: 160px;
+  height: 10rem;
+  position: absolute;
+  /*transition-delay: 1s;*/
+}
+
+/*
+.lightOff {
+  transition-delay: 1s;
+  opacity: 0;
+}
+
+.lightOn {
+  transition-delay: 1s;
+  opacity: 1;
+}*/
+
+.functionBar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: black;
+  border-radius: 100rem;
+  padding: 16px 32px;
+  padding: 1rem 2rem;
+
+  position: absolute;
+  bottom: 40px;
+  bottom: 2.5rem;
+  right: 40px;
+  right: 2.5rem;
+}
+
+.functionBarText {
+  color: white;
+  font-size: 16px;
+  font-size: 1rem;
+  letter-spacing: 0.48px;
+  letter-spacing: .03rem;
+  text-transform: uppercase;
+}
+
+.directionPage {
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+}
+
+.fieldPage {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/assets/fieldlijnen1.png), url(/assets/fieldlijnen2.png), url(/assets/grassPattern.jpg);
+  background-size: 85%, 85%, 30rem;
+  background-position: top center, bottom center, center center;
+  position: relative;
+  background-repeat: no-repeat, no-repeat, repeat;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+
+  cursor: url(/assets/kop1.png), auto;
+}
+
+.scanSignal {
+  background-color: rgba(255, 0, 0, .5);
+  position: absolute;
+  width: 368px;
+  width: 23rem;
+  height: 368px;
+  height: 23rem;
+  border-radius: 20rem;
+  -webkit-animation-name: signal;
+          animation-name: signal;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  /*animation-delay: 2s;*/
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-timing-function: ease;
+          animation-timing-function: ease;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  opacity: 1;
+  z-index: 5;
+}
+
+@-webkit-keyframes signal {
+
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes signal {
+
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.directionwrapper {
+  z-index: 10;
+  -webkit-transform: scale(1.4, 1.4);
+          transform: scale(1.4, 1.4);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 48px;
+  padding: 3rem;
+  position: relative;
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.direction {
+  -webkit-transform: scale(.8, .8);
+          transform: scale(.8, .8);
+  width: 240px;
+  width: 15rem;
+  height: 240px;
+  height: 15rem;
+  background-image: url(/assets/Direction.png);
+  background-size: contain;
+  background-position: center center;
+  z-index: 9;
+}
+
+.cursorFollower {
+  z-index: 100;
+  pointer-events: none;
+  display: none;
+  width: 160px;
+  width: 10rem;
+  height: 240px;
+  height: 15rem;
+  position: absolute;
+  background-image: url(/assets/kop1.png);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+}
+
+.allDirectionsOnField {
+  position: relative;
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+/*# sourceMappingURL=style.css.map*/

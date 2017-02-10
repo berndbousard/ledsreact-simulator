@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
-import {isEmpty} from 'lodash';
 
 import {Direction} from '../components';
 let currentDirectionIndex = 0;
