@@ -111,16 +111,16 @@ module.exports = [
     config: {
 
       payload: {
-        maxBytes: 1000000, // 1MB
+        maxBytes: 5000000, // 1MB
         output: `stream`,  // We need to pipe the filedata to another server
         parse: true,
         allow: `multipart/form-data`
       },
 
-      auth: {
-        strategy: `token`,
-        scope: [Scopes.USER]
-      },
+      // auth: {
+      //   strategy: `token`,
+      //   scope: [Scopes.USER]
+      // },
 
       validate: {
         options: {
@@ -131,12 +131,13 @@ module.exports = [
           name: Joi.string().required(),
           desc: Joi.string().required(),
           creator: Joi.objectId().required(),
-          targetAge: Joi.number().required(),
+          targetAge: Joi.string().required(),
           intensity: Joi.number().required(),
-          groupSize: Joi.number().required(),
+          groupSize: Joi.string().required(),
           focus: Joi.string().required(),
           sport: Joi.objectId().required(),
           image: Joi.any().required(),
+          imageWithDirections: Joi.any().required(),
           feedback: Joi.object()
         }
       }
@@ -144,30 +145,51 @@ module.exports = [
     },
     handler: (req, res) => {
 
+      //-------------------------------{Image 1}---------------------------------
       const image = req.payload.image;
-      const imageName = image.hapi.filename;
-      const imageUploadLocation = nodePath.join(__dirname, `/../../uploads`, `${imageName}`);
+      const imageName = Math.random().toString(36).substr(2, 12);
+      const imageUploadLocation = nodePath.join(__dirname, `/../../uploads`, `${imageName}.png`);
 
       const imageFile = fs.createWriteStream(imageUploadLocation);
-
-      // Andere volgorde
 
       imageFile.on(`error`, e => res(Boom.badRequest(e.errmsg ? e.errmsg : e)));
 
       image.pipe(imageFile);
       image.on(`end`, e => {
-        if (e) res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+        if (e) {
+          return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+        }
       });
 
+      //-------------------------------{Image 2}---------------------------------
+      const imageWithDirections = req.payload.imageWithDirections;
+      const imageWithDirectionsName = Math.random().toString(36).substr(2, 12);
+      const imageWithDirectionsUploadLocation = nodePath.join(__dirname, `/../../uploads`, `${imageWithDirectionsName}.png`);
+
+      const imageWithDirectionsFile = fs.createWriteStream(imageWithDirectionsUploadLocation);
+
+      imageWithDirectionsFile.on(`error`, e => res(Boom.badRequest(e.errmsg ? e.errmsg : e)));
+
+      imageWithDirections.pipe(imageWithDirectionsFile);
+
+      imageWithDirections.on(`end`, e => {
+        if (e) {
+          return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+        }
+      });
+
+
+      //-------------------------------{Opslaan}---------------------------------
       const data = pick(req.payload, [`name`, `desc`, `creator`, `targetAge`, `intensity`, `groupSize`, `focus`, `sport`, `feedback`]);
       data.image = imageName;
+      data.imageWithDirections = imageWithDirectionsName;
       const exercise = new Exercise(data);
-      const projection = [`__v`];
+      // const projection = [`__v`];
 
       exercise.save()
         .then(r => {
-          r = omit(r.toJSON(), projection);
-          return res({r});
+          // r = omit(r.toJSON(), projection);
+          return res({exercise: {_id: r._id}});
         })
         .catch(e => {
           return res(Boom.badRequest(e.errmsg ? e.errmsg : e));

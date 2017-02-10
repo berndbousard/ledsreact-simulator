@@ -124,6 +124,8 @@ module.exports = [
       const direction = new Direction(data);
       const projection = [`__v`];
 
+      console.log(data);
+
       direction.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
