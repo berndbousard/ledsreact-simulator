@@ -64,6 +64,9 @@ class Field extends Component {
 
     console.log(`next step`, settings);
 
+    console.log(`settings`, settings);
+
+
     setTimeout(() => {
       this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
     }, 1500);
