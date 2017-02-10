@@ -97,6 +97,8 @@ module.exports.register = (server, options, next) => {
       //   }
       // });
 
+      console.log(`directionSettings`, directionSettings);
+
       fields = fields.map(f => {
         io.to(f.socketId).emit(`changeDirections`, directionSettings);
         return f;
@@ -105,6 +107,9 @@ module.exports.register = (server, options, next) => {
 
 
     socket.on(`nextStep`, () => {
+
+      console.log(`nextStep`);
+
       fields = fields.map(f => {
         io.to(f.socketId).emit(`nexStep`);
         return f;

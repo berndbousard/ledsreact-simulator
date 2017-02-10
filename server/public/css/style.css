@@ -56,7 +56,7 @@ html {
 *, *::before, *::after { /* stylelint-disable-line */
   box-sizing: inherit;
 }
- body {
+body {
   font-family: Roboto;
   font-size: 48px;
   font-size: 3rem;
@@ -87,10 +87,6 @@ main, .home {
 .home {
   padding: 32px;
   padding: 2rem;
-}
-
-.lightsWrapper{
-  /*transform: scale(1.2)*/
 }
 
 .directionLight {

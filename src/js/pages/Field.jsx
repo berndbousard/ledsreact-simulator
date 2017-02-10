@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
+import {isEmpty} from 'lodash';
 
 import {Direction} from '../components';
 let currentDirectionIndex = 0;
@@ -61,6 +62,7 @@ class Field extends Component {
   WSNextStepHandler() {
     const {directions, settings} = this.state;
 
+    console.log(`next step`, settings);
 
     setTimeout(() => {
       this.WSLightOffDirection(directions[currentDirectionIndex].socketId);
@@ -73,7 +75,7 @@ class Field extends Component {
       directions[currentDirectionIndex].shutDown = false;
       directions[currentDirectionIndex].settings = settings[currentDirectionIndex];
 
-      this.setState(directions);
+      this.setState({directions});
 
       if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
         setTimeout(() => {
@@ -86,18 +88,14 @@ class Field extends Component {
           this.WSLightUpDirection(directionLightTrigger);
         }, 1500);
       }
-
     }
-
   }
 
-
   WSSettingsDirectionsHandler(settings) {
-    // console.log(`settings`, directions);
-    this.setState({settings});
-    const {directions} = this.state;
 
-    console.log(directions);
+    console.log(`deploy`, settings);
+
+    const {directions} = this.state;
 
     const directionLightTrigger = {
       directionSocketId: directions[0].socketId,
@@ -105,15 +103,9 @@ class Field extends Component {
     };
 
     this.WSLightUpDirection(directionLightTrigger);
+
+    this.setState({settings});
   }
-
-
-
-
-
-
-
-
 
   WSInitHandler(directions) {
     this.setState({directions});
@@ -182,6 +174,9 @@ class Field extends Component {
   }
 
   render() {
+
+    console.log(this.state.settings, this.state.directions, this.state);
+
     return (
       <section className='fieldPage'>
         <div className='cursorFollower' ref={`cursor`}></div>

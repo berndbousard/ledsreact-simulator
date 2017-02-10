@@ -1,4 +1,4 @@
- @import 'reset';
+@import 'reset';
 
 body {
   font-family: Roboto;
@@ -23,10 +23,6 @@ main, .home {
 
 .home {
   padding: 2rem;
-}
-
-.lightsWrapper{
-  /*transform: scale(1.2)*/
 }
 
 .directionLight {
