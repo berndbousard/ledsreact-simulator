@@ -4,6 +4,7 @@ import {Light} from '../components';
 
 const richtingen = [`top`, `left`, `right`, `bottom`];
 let inZone = false;
+let delayDirection;
 
 class Direction extends Component {
 
@@ -22,9 +23,12 @@ class Direction extends Component {
 
     const {lichten, scanner, directionwrapper} = this.refs;
 
-    if (props.shutDown) {
-      scanner.classList.remove(`scanSignal`);
+    this.setState({settings: props.settings});
 
+    if (props.shutDown) {
+      // this.setState({settings: props.settings});
+      scanner.classList.remove(`scanSignal`);
+      directionwrapper.removeEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
       directionwrapper.addEventListener(`mouseenter`, () => {
         inZone = false;
       });
@@ -36,8 +40,8 @@ class Direction extends Component {
       const y = props.settings.y;
 
       directionwrapper.style.position = `absolute`;
-      directionwrapper.style.left = `${x * window.innerWidth}px`;
-      directionwrapper.style.top = `${y * window.innerHeight}px`;
+      directionwrapper.style.left = `${(x * window.innerWidth) - 90}px`;
+      directionwrapper.style.top = `${(y * window.innerHeight) - 90}px`;
 
       scanner.classList.add(`scanSignal`);
 
@@ -46,17 +50,7 @@ class Direction extends Component {
 
       this.assignColors(settings.combineLights, settings.directions);
 
-      directionwrapper.addEventListener(`mouseenter`, () => {
-        this.assignColors(settings.combineLights, settings.directions);
-        inZone = true;
-
-        setTimeout(() => {
-
-          if (inZone && !props.shutDown) {
-            this.lightsOn();
-          }
-        }, settings.delay * 1000);
-      });
+      directionwrapper.addEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
 
       directionwrapper.addEventListener(`mouseleave`, () => {
         if (inZone && !props.shutDown) {
@@ -66,6 +60,26 @@ class Direction extends Component {
       });
     }
   }
+
+  mouseEnterEvent(e, props) {
+    if (this.state.settings) {
+      const {delay} = this.state.settings;
+      delayDirection = delay;
+    }
+
+    const {settings} = props;
+    this.assignColors(settings.combineLights, settings.directions);
+    inZone = true;
+
+    // console.log(`settings delay`, settings.delay);
+
+    setTimeout(() => {
+      if (inZone && !props.shutDown) {
+        this.lightsOn();
+      }
+    }, delayDirection * 1000);
+  }
+
 
   componentDidMount() {
 
