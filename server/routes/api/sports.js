@@ -37,12 +37,12 @@ module.exports = [
     handler: (req, res) => {
 
       const {_id} = req.params;
-      const projection = `-__v`;
+      const projection = `-__v -created`;
 
       if (_id) {
         Sport.findOne({_id: `${_id}`}, projection)
           .then(r => {
-            return res({r});
+            return res({sport: r});
           })
           .catch(() => {
             return res(Boom.badRequest());
@@ -52,11 +52,11 @@ module.exports = [
       else {
         Sport.find()
           .then(r => {
-            const projection = [`__v`];
+            const projection = [`__v`, `created`];
             r = r.map((_r => {
               return omit(_r.toJSON(), projection);
             }));
-            return res({r});
+            return res({sports: r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
