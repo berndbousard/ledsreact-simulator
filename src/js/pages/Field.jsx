@@ -32,8 +32,10 @@ class Field extends Component {
 
     document.addEventListener(`mousemove`, e => {
       this.cursor.style.display = `block`;
-      this.cursor.style.left = `${e.screenX - 50}px`;
-      this.cursor.style.top = `${e.screenY - 170}px`;
+      this.cursor.style.left = `${e.clientX - (100 / 2)}px`;
+      this.cursor.style.top = `${e.clientY - (160 / 2)}px`;
+
+      console.log(e.clientY);
     });
 
 
