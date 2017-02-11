@@ -1,4 +1,4 @@
-const {ExerciseNote} = require(`mongoose`).models;
+const {ExerciseNote, Exercise} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
@@ -117,7 +117,17 @@ module.exports = [
       exerciseNote.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
-          return res({r});
+          return r;
+        })
+        .then(r => {
+          Exercise.update({_id: r.exercise}, {$addToSet: {notes: r._id}})
+            .then((_r => {
+              console.log(_r);
+              return res({exerciseNotes: r});
+            }))
+            .catch(e => {
+              return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+            });
         })
         .catch(e => {
           return res(Boom.badRequest(e.errmsg ? e.errmsg : e));

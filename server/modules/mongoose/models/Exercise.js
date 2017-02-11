@@ -18,7 +18,7 @@ const schema = new Schema ({
   },
 
   targetAge: {
-    type: Number,
+    type: String,
     required: true
   },
 
@@ -28,7 +28,7 @@ const schema = new Schema ({
   },
 
   groupSize: {
-    type: Number,
+    type: String,
     required: true
   },
 
@@ -48,6 +48,26 @@ const schema = new Schema ({
     required: true,
     unique: true
   },
+
+  imageWithDirections: {
+    type: String,
+    required: true,
+    unique: true
+  },
+
+  feedback: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: `ExerciseFeedback`
+    }
+  ],
+
+  notes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: `ExerciseNote`
+    }
+  ],
 
   public: {
     type: Boolean,

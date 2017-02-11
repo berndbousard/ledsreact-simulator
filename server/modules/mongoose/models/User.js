@@ -34,7 +34,8 @@ const schema = new Schema ({
 
   image: {
     type: String,
-    default: `propic.jpg`
+    default: `propic.jpg`,
+    unique: true
   },
 
   scope: {

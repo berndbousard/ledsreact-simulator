@@ -1,4 +1,4 @@
-const {DirectionFunction} = require(`mongoose`).models;
+const {ExerciseFeedback, Exercise} = require(`mongoose`).models;
 const Scopes = require(`../../modules/mongoose/const/Scopes`);
 
 // dingen uit object halen met pick; omit om dingen uit object te smijten
@@ -9,7 +9,7 @@ const Boom = require(`boom`);
 const Joi = require(`joi`);
 Joi.objectId = require(`joi-objectid`)(Joi);
 
-const path = `/api/directionFunctions`;
+const path = `/api/exerciseFeedback`;
 
 module.exports = [
 
@@ -19,10 +19,10 @@ module.exports = [
     path: `${path}/{_id?}`,
     config: {
 
-      // auth: {
-      //   strategy: `token`,
-      //   scope: [Scopes.USER]
-      // },
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
 
       validate: {
         options: {
@@ -40,9 +40,13 @@ module.exports = [
       const projection = `-__v`;
 
       if (_id) {
-        DirectionFunction.findOne({_id: `${_id}`}, projection)
+        ExerciseFeedback.findOne({_id: `${_id}`}, projection)
+          .populate({
+            path: `creator`,
+            select: `name _id image`,
+          })
           .then(r => {
-            return res({r});
+            return res({exerciseFeedback: r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
@@ -50,13 +54,13 @@ module.exports = [
       }
 
       else {
-        DirectionFunction.find()
+        ExerciseFeedback.find({}, projection)
+          .populate({
+            path: `creator`,
+            select: `name _id image`,
+          })
           .then(r => {
-            const projection = [`__v`, `created`];
-            r = r.map((_r => {
-              return omit(_r.toJSON(), projection);
-            }));
-            return res({directionFunctions: r});
+            return res({exerciseFeedback: r});
           })
           .catch(e => {
             return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
@@ -73,10 +77,10 @@ module.exports = [
     path: `${path}`,
     config: {
 
-      // auth: {
-      //   strategy: `token`,
-      //   scope: [Scopes.USER]
-      // },
+      auth: {
+        strategy: `token`,
+        scope: [Scopes.USER]
+      },
 
       validate: {
 
@@ -85,21 +89,33 @@ module.exports = [
         },
 
         payload: {
-          name: Joi.string().required()
+          creator: Joi.objectId().required(),
+          exercise: Joi.objectId().required(),
+          text: Joi.string().required()
         }
-
       }
 
     },
     handler: (req, res) => {
-      const data = pick(req.payload, [`name`]);
-      const directionFunction = new DirectionFunction(data);
+      const data = pick(req.payload, [`creator`, `exercise`, `text`]);
+      const exerciseFeedback = new ExerciseFeedback(data);
       const projection = [`__v`, `created`];
 
-      directionFunction.save()
+      exerciseFeedback.save()
         .then(r => {
           r = omit(r.toJSON(), projection);
-          return res({r});
+          return r;
+        })
+        .then(r => {
+          console.log(r._id);
+          Exercise.update({_id: r.exercise}, {$addToSet: {feedback: r._id}})
+            .then((_r => {
+              console.log(_r);
+              return res({exerciseFeedback: r});
+            }))
+            .catch(e => {
+              return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
+            });
         })
         .catch(e => {
           return res(Boom.badRequest(e.errmsg ? e.errmsg : e));
