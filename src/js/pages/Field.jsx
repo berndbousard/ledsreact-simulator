@@ -24,8 +24,6 @@ class Field extends Component {
     }
   }
 
-
-
   componentDidMount() {
 
     // code voor cursorshit, moet nog een image in gepropt worden
@@ -34,12 +32,7 @@ class Field extends Component {
       this.cursor.style.display = `block`;
       this.cursor.style.left = `${e.clientX - (100 / 2)}px`;
       this.cursor.style.top = `${e.clientY - (160 / 2)}px`;
-
-      console.log(e.clientY);
     });
-
-
-
 
     this.socket = io(`/`, {query: `client=field`});
     this.socket.on(`init`, directions => this.WSInitHandler(directions));

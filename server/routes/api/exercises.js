@@ -62,6 +62,9 @@ module.exports = [
             path: `sport`,
             select: `-__v -created`,
           })
+          .sort({
+            _id: - 1
+          })
           .then(r => {
             return res({exercise: r});
           })
@@ -87,6 +90,9 @@ module.exports = [
           .populate({
             path: `notes`,
             select: `creator text created`,
+          })
+          .sort({
+            _id: - 1
           })
           .then(r => {
             const projection = [`__v`];
