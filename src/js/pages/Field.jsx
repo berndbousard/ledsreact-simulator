@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 
 import {Direction} from '../components';
 let currentDirectionIndex = 0;
-const currentlyBuzzy = true;
 
 
 class Field extends Component {
@@ -13,16 +12,32 @@ class Field extends Component {
     settings: []
   }
 
+
+
+  ShowFaceHandler() {
+    if (this.field) {
+      if (this.cursor.style.backgroundImage === `url("../assets/kop1.png")`) {
+        this.cursor.style.backgroundImage = `url("../assets/kop2.png")`;
+      } else {
+        this.cursor.style.backgroundImage = `url("../assets/kop1.png")`;
+      }
+    }
+  }
+
+
+
   componentDidMount() {
 
     // code voor cursorshit, moet nog een image in gepropt worden
-    document.addEventListener(`mousemove`, e => {
-      const {cursor} = this.refs;
-      cursor.style.display = `block`;
-      cursor.style.left = `${e.screenX - 50}px`;
-      cursor.style.top = `${e.screenY - 170}px`;
 
+    document.addEventListener(`mousemove`, e => {
+      this.cursor.style.display = `block`;
+      this.cursor.style.left = `${e.screenX - 50}px`;
+      this.cursor.style.top = `${e.screenY - 170}px`;
     });
+
+
+
 
     this.socket = io(`/`, {query: `client=field`});
     this.socket.on(`init`, directions => this.WSInitHandler(directions));
@@ -72,10 +87,13 @@ class Field extends Component {
     }, 1500);
 
 
-    if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
-      setTimeout(() => {
-        currentDirectionIndex ++;
 
+    if (currentDirectionIndex < settings.length - 1 && currentDirectionIndex < directions.length - 1) {
+
+
+      setTimeout(() => {
+
+        currentDirectionIndex ++;
         const directionLightTrigger = {
           directionSocketId: directions[currentDirectionIndex].socketId,
           time: false
@@ -171,8 +189,8 @@ class Field extends Component {
 
   render() {
     return (
-      <section className='fieldPage'>
-        <div className='cursorFollower' ref={`cursor`}></div>
+      <section className='fieldPage' onClick={e => this.ShowFaceHandler(e)} ref={f => {this.field = f;}}>
+        <div className='cursorFollower' ref={c => {this.cursor = c;}}></div>
         {this.renderDirections()}
       </section>
     );
