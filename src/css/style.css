@@ -25,10 +25,13 @@ main, .home {
   padding: 2rem;
 }
 
+<<<<<<< HEAD
 .lightsWrapper {
   /*transform: scale(1.2)*/
 }
 
+=======
+>>>>>>> 5124d6f88e22c6ad973db0d369af6c9b3bf5da1a
 .directionLight {
   width: 5rem;
   height: 5rem;
