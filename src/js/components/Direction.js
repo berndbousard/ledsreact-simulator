@@ -21,15 +21,13 @@ class Direction extends Component {
 
   componentWillReceiveProps(props) {
 
-    const {lichten, scanner, directionwrapper} = this.refs;
-
     this.setState({settings: props.settings});
 
     if (props.shutDown) {
       // this.setState({settings: props.settings});
-      scanner.classList.remove(`scanSignal`);
-      directionwrapper.removeEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
-      directionwrapper.addEventListener(`mouseenter`, () => {
+      this.scanner.classList.remove(`scanSignal`);
+      this.directionwrapper.removeEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
+      this.directionwrapper.addEventListener(`mouseenter`, () => {
         inZone = false;
       });
     }
@@ -39,20 +37,20 @@ class Direction extends Component {
       const x = props.settings.x;
       const y = props.settings.y;
 
-      directionwrapper.style.position = `absolute`;
-      directionwrapper.style.left = `${(x * window.innerWidth) - 90}px`;
-      directionwrapper.style.top = `${(y * window.innerHeight) - 90}px`;
+      this.directionwrapper.style.position = `absolute`;
+      this.directionwrapper.style.left = `${(x * window.innerWidth) - 90}px`;
+      this.directionwrapper.style.top = `${(y * window.innerHeight) - 90}px`;
 
-      scanner.classList.add(`scanSignal`);
+      this.scanner.classList.add(`scanSignal`);
 
       const {settings} = props;
       this.setState({settings});
 
       this.assignColors(settings.combineLights, settings.directions);
 
-      directionwrapper.addEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
+      this.directionwrapper.addEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
 
-      directionwrapper.addEventListener(`mouseleave`, () => {
+      this.directionwrapper.addEventListener(`mouseleave`, () => {
         if (inZone && !props.shutDown) {
           this.lightsOff();
           inZone = false;
@@ -86,26 +84,24 @@ class Direction extends Component {
     this.lightsOff();
 
     const {order} = this.props;
-    const {directionwrapper} = this.refs;
 
-    directionwrapper.style.position = `absolute`;
-    directionwrapper.style.left = `${((order + 1) * 200) - 200}px`;
-    directionwrapper.style.top = `${window.innerHeight - 220  }px`;
-    directionwrapper.style.zIndex = 20 - order;
+    this.directionwrapper.style.position = `absolute`;
+    this.directionwrapper.style.left = `${((order + 1) * 200) - 200}px`;
+    this.directionwrapper.style.top = `${window.innerHeight - 220  }px`;
+    this.directionwrapper.style.zIndex = 20 - order;
 
   }
 
   lightsOn() {
-    if (this.refs.lichten) {
-      const {lichten} = this.refs;
-      lichten.style.opacity = 1;
+    if (this.lichten) {
+      this.lichten.style.opacity = 1;
     }
   }
 
   lightsOff() {
-    if (this.refs.lichten) {
-      const {lichten} = this.refs;
-      lichten.style.opacity = 0;
+    if (this.lichten) {
+
+      this.lichten.style.opacity = 0;
     }
   }
 
@@ -148,9 +144,9 @@ class Direction extends Component {
     }
 
     return (
-    <div className='directionwrapper' ref={`directionwrapper`} data-directionKey={this.props.socketId}>
+    <div className='directionwrapper'  ref={d => {this.directionwrapper = d;}} data-directionKey={this.props.socketId}>
       <div className='direction'>
-        <div className='lightsWrapper' ref={`lichten`}>
+        <div className='lightsWrapper' ref={l => {this.lichten = l;}} >
           {/* {allLights ? this.lightsOn() : this.lightsOff()} */}
           <Light lightPosition={`lightUP`} allLights={allLights} color={kleuren.top} />
           <Light lightPosition={`lightRIGHT`} allLights={allLights} color={kleuren.right} />
@@ -158,7 +154,7 @@ class Direction extends Component {
           <Light lightPosition={`lightLEFT`} allLights={allLights} color={kleuren.left} />
         </div>
       </div>
-      <div ref={`scanner`}></div>
+      <div ref={s => {this.scanner = s;}}></div>
     </div>
     );
   }
@@ -168,6 +164,7 @@ Direction.propTypes = {
   socketId: React.PropTypes.string,
   allLights: React.PropTypes.bool,
   settings: React.PropTypes.object,
+  order: React.PropTypes.number
 };
 
 export default Direction;

@@ -1,4 +1,4 @@
- @import 'reset';
+@import 'reset';
 
 body {
   font-family: Roboto;
@@ -25,7 +25,7 @@ main, .home {
   padding: 2rem;
 }
 
-.lightsWrapper{
+.lightsWrapper {
   /*transform: scale(1.2)*/
 }
 
