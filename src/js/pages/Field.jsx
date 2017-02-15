@@ -31,13 +31,12 @@ class Field extends Component {
     // code voor cursorshit, moet nog een image in gepropt worden
 
     document.addEventListener(`mousemove`, e => {
+
+      console.log(`hey`);
       this.cursor.style.display = `block`;
-      this.cursor.style.left = `${e.screenX - 50}px`;
-      this.cursor.style.top = `${e.screenY - 170}px`;
+      this.cursor.style.left = `${e.clientX - 50}px`;
+      this.cursor.style.top = `${e.clientY - 80}px`;
     });
-
-
-
 
     this.socket = io(`/`, {query: `client=field`});
     this.socket.on(`init`, directions => this.WSInitHandler(directions));

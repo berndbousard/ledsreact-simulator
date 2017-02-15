@@ -14588,6 +14588,8 @@ var Direction = function (_Component) {
       });
 
       this.directionwrapper.addEventListener('mouseleave', function () {
+
+        console.log('out');
         if (inZone && !props.shutDown) {
           _this2.lightsOff();
           inZone = false;
@@ -14693,14 +14695,14 @@ var Direction = function (_Component) {
           _this4.directionwrapper = d;
         }, 'data-directionKey': this.props.socketId, __source: {
           fileName: _jsxFileName,
-          lineNumber: 147
+          lineNumber: 149
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'direction', __source: {
             fileName: _jsxFileName,
-            lineNumber: 148
+            lineNumber: 150
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -14709,27 +14711,27 @@ var Direction = function (_Component) {
               _this4.lichten = l;
             }, __source: {
               fileName: _jsxFileName,
-              lineNumber: 149
+              lineNumber: 151
             }
           },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightUP', allLights: allLights, color: kleuren.top, __source: {
               fileName: _jsxFileName,
-              lineNumber: 151
+              lineNumber: 153
             }
           }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightRIGHT', allLights: allLights, color: kleuren.right, __source: {
               fileName: _jsxFileName,
-              lineNumber: 152
+              lineNumber: 154
             }
           }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightDOWN', allLights: allLights, color: kleuren.bottom, __source: {
               fileName: _jsxFileName,
-              lineNumber: 153
+              lineNumber: 155
             }
           }),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components__["b" /* Light */], { lightPosition: 'lightLEFT', allLights: allLights, color: kleuren.left, __source: {
               fileName: _jsxFileName,
-              lineNumber: 154
+              lineNumber: 156
             }
           })
         )
@@ -14738,7 +14740,7 @@ var Direction = function (_Component) {
           _this4.scanner = s;
         }, __source: {
           fileName: _jsxFileName,
-          lineNumber: 157
+          lineNumber: 159
         }
       })
     );
@@ -15171,9 +15173,11 @@ var Field = function (_Component) {
     // code voor cursorshit, moet nog een image in gepropt worden
 
     document.addEventListener('mousemove', function (e) {
+
+      console.log('hey');
       _this2.cursor.style.display = 'block';
-      _this2.cursor.style.left = e.screenX - 50 + 'px';
-      _this2.cursor.style.top = e.screenY - 170 + 'px';
+      _this2.cursor.style.left = e.clientX - 50 + 'px';
+      _this2.cursor.style.top = e.clientY - 80 + 'px';
     });
 
     this.socket = __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default()('/', { query: 'client=field' });
@@ -15342,13 +15346,13 @@ var Field = function (_Component) {
         'div',
         { key: index, __source: {
             fileName: _jsxFileName,
-            lineNumber: 183
+            lineNumber: 182
           }
         },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components__["a" /* Direction */], _extends({ order: index, key: index }, d, {
           __source: {
             fileName: _jsxFileName,
-            lineNumber: 184
+            lineNumber: 183
           }
         }))
       );
@@ -15366,14 +15370,14 @@ var Field = function (_Component) {
           _this6.field = f;
         }, __source: {
           fileName: _jsxFileName,
-          lineNumber: 192
+          lineNumber: 191
         }
       },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'cursorFollower', ref: function ref(c) {
           _this6.cursor = c;
         }, __source: {
           fileName: _jsxFileName,
-          lineNumber: 193
+          lineNumber: 192
         }
       }),
       this.renderDirections()
@@ -35347,4 +35351,4 @@ module.exports = __webpack_require__(120);
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=main.e51d82d006d34c7443e0.js.map
+//# sourceMappingURL=main.18f3fa926cd7263cf096.js.map

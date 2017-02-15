@@ -51,6 +51,8 @@ class Direction extends Component {
       this.directionwrapper.addEventListener(`mouseenter`, e =>  this.mouseEnterEvent(e, props));
 
       this.directionwrapper.addEventListener(`mouseleave`, () => {
+
+        console.log(`out`);
         if (inZone && !props.shutDown) {
           this.lightsOff();
           inZone = false;

@@ -88,6 +88,9 @@ module.exports = [
             path: `notes`,
             select: `creator text created`,
           })
+          .sort({
+            _id: - 1
+          })
           .then(r => {
             const projection = [`__v`];
             r = r.map((_r => {
